@@ -1,6 +1,6 @@
 @font-face {
   font-family: BodoniModa;
-  src: url(bodonimoda.ttf);
+  src: url('bodonimoda.ttf');
 }
 
 body {
@@ -19,7 +19,7 @@ body {
 
 /* entire navbar background*/
 .navbar {
-    background-image: url("nav_bg.png");
+    background-image: url("media/nav_bg.png");
 }
 
 /* navbar logo padding */
@@ -64,12 +64,12 @@ body {
 
 .form-control:focus {
     border-color: #cc9cfb;
-    background-image: url("nav_bg.png");
+    background-image: url('../media/nav_bg.png');
 }
 
 .login_bg {
     height: 1000px;
-    background-image: url("Screen Shot 2023-03-17 at 8.58.31 PM.png");
+    background-image: url('media/login_bg.png');
 }
 
 .img-cover {
