@@ -64,7 +64,7 @@ body {
 
 .form-control:focus {
     border-color: #cc9cfb;
-    background-image: url('../media/nav_bg.png');
+    background-image: url('media/nav_bg.png');
 }
 
 .login_bg {
