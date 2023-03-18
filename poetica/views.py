@@ -2,4 +2,4 @@ from django.shortcuts import render
 
 # Create your views here.
 def profile(request):
-    return render(request, "login_page.html")
+    return render(request, "register_page.html")
