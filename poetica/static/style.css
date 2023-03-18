@@ -1,0 +1,91 @@
+@font-face {
+  font-family: BodoniModa;
+  src: url(bodonimoda.ttf);
+}
+
+body {
+    font-family: BodoniModa;
+    background-color: #f7f7ff;
+}
+
+/* purple button*/
+.btn-dark {
+    --bs-btn-font-size: 1rem;
+    --bs-btn-color: black;          /* black font */
+    --bs-btn-bg: #e6d6fe;          /* light purple bg */
+    --bs-btn-hover-color: black;    /* black font hover */
+    --bs-btn-hover-bg: #d4bbfa;     /* darker purple hover */
+}
+
+/* entire navbar background*/
+.navbar {
+    background-image: url("nav_bg.png");
+}
+
+/* navbar logo padding */
+.navbar-brand {
+    padding: 0.5em;
+    font-size: 30px;
+}
+
+/* right-pad a block element */
+.right-padding {
+    padding-right: 1em !important;
+}
+
+/* right-pad button */
+.btn-space {
+    margin-right: 0.25em;
+}
+
+.mleft-20 {
+    padding-left: 4rem !important;
+}
+
+.mleft-23 {
+    padding-left: 5rem !important;
+}
+
+.mright-20 {
+    padding-right: 4rem !important;
+}
+
+.link {
+    color: #cc9cfb;
+}
+
+.link:hover {
+    color: #8c32fa;
+}
+
+.form-btn-margin {
+    margin-left: 67vw;
+}
+
+.form-control:focus {
+    border-color: #cc9cfb;
+    background-image: url("nav_bg.png");
+}
+
+.login_bg {
+    height: 1000px;
+    background-image: url("Screen Shot 2023-03-17 at 8.58.31 PM.png");
+}
+
+.img-cover {
+    object-fit: cover;
+    object-position: center;
+}
+
+.display-6 {
+    font-size: 30px;
+}
+
+.display-7 {
+    font-size: 20px !important;
+}
+
+.icons {
+    width: 40px;
+    height: 40px;
+}
