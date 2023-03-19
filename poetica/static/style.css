@@ -106,3 +106,39 @@ body {
     width: 40px;
     height: 40px;
 }
+
+.col-md-25 {
+    width: 25%;
+    flex: 0 0 auto;
+}
+
+.col-md-50 {
+    width: 50%;
+    flex: 0 0 auto;
+}
+
+.left-arrow {
+  box-sizing: border-box;
+  height: 5vw;
+  width: 5vw;
+  border-style: solid;
+  border-color: #d4bbfa;
+  border-width: 0px 4px 4px 0px;
+  transform: rotate(135deg);
+}
+
+.right-arrow {
+  box-sizing: border-box;
+  height: 5vw;
+  width: 5vw;
+  border-style: solid;
+  border-color: #d4bbfa;
+  border-width: 0px 4px 4px 0px;
+  transform: rotate(-45deg);
+}
+
+.arrow:hover {
+  border-bottom-width: 6px;
+  border-right-width: 6px;
+}
+
