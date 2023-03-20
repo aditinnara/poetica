@@ -1,0 +1,32 @@
+{% extends "poetica_base.html" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-4 border-0">
+            {% block authentication_bar %}
+            {% endblock %}
+        </div>
+
+        <div class="col-md-8 login_bg border-0">
+            <br>
+
+            <div class="login-heading-margin poetica-login">
+                poetica (n)
+
+                <!--change this font tag, deprecated-->
+
+                <span style="color:#7a7f99"> /pō'edikə/</span><span>: a personalized poetry experience </span>
+
+                <br><br><br><br>
+            </div>
+            <br><br><br><br><br><br>
+            <div class="justify-content-center quote " style="text-align: center">
+                    I know you're tired but come, this is the way.
+            </div>
+
+            <div class=" justify-content-center quote_author" style="text-align: center">
+                —Rumi
+            </div>
+        </div>
+    </div>
+{% endblock %}
