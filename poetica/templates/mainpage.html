@@ -12,21 +12,21 @@
     <br><br>
     <div class="mleft-20 display-6">
         do you have a specific author or theme in mind? try
-        <a class="link"> discover. </a>
+        <a class="link" href="{% url 'discover-quiz' %}"> discover. </a>
     </div>
     <br>
     <div class="mleft-20 display-6">
         if not, try
-        <a class="link"> random poetry. </a>
+        <a class="link" href="{% url 'random-poem' %}"> random poetry. </a>
     </div>
     <br>
     <div class="mleft-20 display-6">
         want to add a poem to our database? try
-        <a class="link"> upload. </a>
+        <a class="link" href="{% url 'upload-poem' %}"> upload. </a>
     </div>
     <br>
     <div class="mleft-20 display-6">
         when all else fails... view
-        <a class="link"> top liked. </a>
+        <a class="link" href="{% url 'top-liked-poem' %}"> top liked. </a>
     </div>
 {% endblock %}
