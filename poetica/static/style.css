@@ -13,7 +13,7 @@ body {
     content: "\F586";
 }
 
-/* purple button*/
+/* purple button */
 .btn-dark {
     --bs-btn-font-size: 1rem;
     --bs-btn-color: black;          /* black font */
