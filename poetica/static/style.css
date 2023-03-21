@@ -8,11 +8,16 @@ body {
     background-color: #f7f7ff;
 }
 
+/* star */
+.bi-star:hover:before {
+    content: "\F586";
+}
+
 /* purple button*/
 .btn-dark {
     --bs-btn-font-size: 1rem;
     --bs-btn-color: black;          /* black font */
-    --bs-btn-bg: #e6d6fe;          /* light purple bg */
+    --bs-btn-bg: #e6d6fe;           /* light purple bg */
     --bs-btn-hover-color: black;    /* black font hover */
     --bs-btn-hover-bg: #d4bbfa;     /* darker purple hover */
 }
@@ -36,6 +41,11 @@ body {
 /* right-pad button */
 .btn-space {
     margin-right: 0.25em;
+}
+
+.mx-6 {
+    margin-left: 7rem !important;
+    margin-right: 7rem !important;
 }
 
 .mleft-20 {
