@@ -34,6 +34,8 @@
 
     <div class="col-sm-12 text-center">
         <button id="login_btn" class="btn btn-dark btn-md center-block" style="width: 100px;" >login</button>
-        <button id="register_btn" class="btn btn-dark btn-md center-block" style="width: 100px;" >register</button>
+        <a href="{% url 'register' %}" style="text-decoration:none;">
+            <button id="register_btn" class="btn btn-dark btn-md center-block" style="width: 100px;" >register</button>
+        </a>
     </div>
 {% endblock %}
