@@ -20,6 +20,6 @@ from poetica import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.main),
+    path('', views.home),
     path('poetica/', include('poetica.urls')),
 ]
