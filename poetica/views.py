@@ -25,5 +25,13 @@ def discover_poem(request):
     return render(request, "discover_poem_page.html")
 
 
+def random_poem(request):
+    return render(request, "random_poem_page.html")
+
+
+def top_liked_poem(request):
+    return render(request, "top_liked_poem_page.html")
+
+
 def upload_poem(request):
     return render(request, "upload_poem_page.html")
