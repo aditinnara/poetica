@@ -17,9 +17,9 @@ def get_rand_quote():
         "John Keats": "Season of mists and mellow fruitfulness...",
         "Emily Brontë": "Be with me always—take any form—drive me mad!",
         "Lewis Carroll": "In vain we roared; in vain we tried.",
-        "Mary Oliver": "Listen — are you breathing just a little, and calling it a life",
-        "Morgan Parker": "I am a dreamer with empty hands and I like the chill",
-        "Elizabeth Alexander": "The basket of remembrance has three sides; one is open, can it tilt and spill out"
+        "Mary Oliver": "Listen — are you breathing just a little, and calling it a life?",
+        "Morgan Parker": "I am a dreamer with empty hands and I like the chill.",
+        "Elizabeth Alexander": "The basket of remembrance has three sides; one is open, can it tilt and spill out?"
     }
     random.seed()
     rand_ind = random.randint(0, len(quote_dict)-1)
