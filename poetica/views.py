@@ -3,6 +3,7 @@ import random
 
 # Create your views here.
 
+
 def get_rand_quote():
     quote_dict = {
         "Rumi": "I know you're tired but come, this is the way.",
@@ -10,7 +11,15 @@ def get_rand_quote():
         "Audre Lorde": "Your silence will not protect you.",
         "Walt Whitman": "Do I contradict myself? Very well, then I contradict myself, I am large, I contain multitudes.",
         "Amanda Gorman": "We lay down our arms.",
-        "Christina Rosetti": "Lie still, lie still, my breaking heart..."
+        "Christina Rosetti": "Lie still, lie still, my breaking heart...",
+        "Emily Dickinson": "That it will never come again is what makes life sweet.",
+        "Robert Frost": "And miles to go before I sleep.",
+        "John Keats": "Season of mists and mellow fruitfulness...",
+        "Emily Brontë": "Be with me always—take any form—drive me mad!",
+        "Lewis Carroll": "In vain we roared; in vain we tried.",
+        "Mary Oliver": "Listen — are you breathing just a little, and calling it a life",
+        "Morgan Parker": "I am a dreamer with empty hands and I like the chill",
+        "Elizabeth Alexander": "The basket of remembrance has three sides; one is open, can it tilt and spill out"
     }
     random.seed()
     rand_ind = random.randint(0, len(quote_dict)-1)
@@ -44,6 +53,7 @@ def discover_poem(request):
 
 
 def random_poem(request):
+
     return render(request, "random_poem_page.html")
 
 
