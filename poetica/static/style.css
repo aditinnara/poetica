@@ -152,3 +152,8 @@ body {
   border-right-width: 6px;
 }
 
+.break-card {
+    width: 20px !important;
+    word-wrap: break-word !important;
+}
+

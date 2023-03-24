@@ -1,6 +1,9 @@
 from django.shortcuts import render
 import random
+import pandas as pd
+import html
 
+pd.set_option('display.max_colwidth', None)
 # Create your views here.
 
 
@@ -53,8 +56,14 @@ def discover_poem(request):
 
 
 def random_poem(request):
+    df = pd.read_csv('poetica/static/database/poetry_db.csv')
+    row = df.loc[df['Id'] == 55]
 
-    return render(request, "random_poem_page.html")
+    context = {"poet": row['Poet'].to_string(index=False).replace('\\r', '\n'),
+               "poem": row['Poem'].to_string(index=False).replace('\\r', '\n'),
+               "title": row['Title'].to_string(index=False).replace('\\r', '\n')}
+
+    return render(request, "random_poem_page.html", context)
 
 
 def top_liked_poem(request):
