@@ -57,11 +57,13 @@ def discover_poem(request):
 
 def random_poem(request):
     df = pd.read_csv('poetica/static/database/poetry_db.csv')
-    row = df.loc[df['Id'] == 55]
 
-    context = {"poet": row['Poet'].to_string(index=False).replace('\\r', '\n'),
-               "poem": row['Poem'].to_string(index=False).replace('\\r', '\n'),
-               "title": row['Title'].to_string(index=False).replace('\\r', '\n')}
+    id_ind = random.randint(0, len(df.index) - 1)
+    row = df.loc[df['Id'] == id_ind]
+
+    context = {"poet": row['Poet'].to_string(index=False).replace('\\r', '').strip(),
+               "poem": row['Poem'].to_string(index=False).replace('\\r', '\n').strip("\\r"),
+               "title": row['Title'].to_string(index=False).replace('\\r', '').strip()}
 
     return render(request, "random_poem_page.html", context)
 
