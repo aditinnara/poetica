@@ -11,4 +11,6 @@ urlpatterns = [
     path('random-poem', views.random_poem, name='random-poem'),
     path('top-liked-poem', views.top_liked_poem, name='top-liked-poem'),
     path('upload-poem', views.upload_poem, name='upload-poem'),
+    path('left-arrow', views.left_arrow, name='left-arrow'),
+    path('right-arrow', views.right_arrow, name='right-arrow'),
 ]

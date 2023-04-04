@@ -86,7 +86,10 @@ def discover_quiz(request):
 
     poem = poems['0']
 
-    context = {'poem': poem, 'poems': poems}
+    request.session['index'] = 0
+    request.session['poems'] = poems
+
+    context = {'poem': poem}
 
     return render(request, "discover_poem_page.html", context)
 
@@ -111,7 +114,10 @@ def random_poem(request):
 
     poem = poems['0']
 
-    context = {'poem': poem, 'poems': poems}
+    request.session['index'] = 0
+    request.session['poems'] = poems
+
+    context = {'poem': poem}
 
     return render(request, "random_poem_page.html", context)
 
@@ -123,3 +129,34 @@ def top_liked_poem(request):
 def upload_poem(request):
     return render(request, "upload_poem_page.html")
 
+
+def left_arrow(request):
+    index = request.session['index']
+    poems = request.session['poems']
+
+    if index == 0:
+        index = len(poems) - 1
+    else:
+        index = index - 1
+
+    request.session['index'] = index
+    poem = poems[str(index)]
+    context = {'poem': poem}
+
+    return render(request, "poem_base.html", context)
+
+
+def right_arrow(request):
+    index = request.session['index']
+    poems = request.session['poems']
+
+    if index == len(poems) - 1:
+        index = 0
+    else:
+        index = index + 1
+
+    request.session['index'] = index
+    poem = poems[str(index)]
+    context = {'poem': poem}
+
+    return render(request, "poem_base.html", context)
