@@ -15,31 +15,35 @@
     <br>
 
     <div>
-        <div class="form-group row">
-            <label class="my-1 mr-2 mleft-23">what poets would you like to read from?</label>
-            <div class="col-sm-10 mleft-23">
-              <input class="form-control" id="poetForm" placeholder="Audre Lorde, Sylvia Plath, Walt Whitman, Rumi">
+        <form method="post" action="{% url 'discover-quiz' %}">
+            {{ form.non_field_errors }}
+            <div class="form-group row">
+                {{ form.poets.errors }}
+                <label class="my-1 mr-2 mleft-23">what poets would you like to read from?</label>
+                <div class="col-sm-10 mleft-23">
+                    {{ form.poets }}
+                </div>
             </div>
-        </div>
-        <br>
-        <div class="form-group row">
-            <label class="my-1 mr-2 mleft-23">what emotions would you like to feel?</label>
-            <div class="col-sm-10 mleft-23">
-              <input class="form-control" id="emotionForm" placeholder="joy, nostalgia, euphoria">
+            <br>
+            <div class="form-group row">
+                {{ form.emotions.errors }}
+                <label class="my-1 mr-2 mleft-23">what emotions would you like to feel?</label>
+                <div class="col-sm-10 mleft-23">
+                    {{ form.emotions }}
+                </div>
             </div>
-        </div>
-        <br>
-        <div class="form-group row">
-            <label class="my-1 mr-2 mleft-23">would you like to see any specific keywords?</label>
-            <div class="col-sm-10 mleft-23">
-              <input class="form-control" id="keywordForm" placeholder="breadcrumbs, fawn, carousel">
+            <br>
+            <div class="form-group row">
+                {{ form.keywords.errors }}
+                <label class="my-1 mr-2 mleft-23">would you like to see any specific keywords?</label>
+                <div class="col-sm-10 mleft-23">
+                    {{ form.keywords }}
+                </div>
             </div>
-        </div>
-        <br><br>
-        <a href="{% url 'discover-poem' %}" style="text-decoration:none;">
-            <button type="button" class="btn btn-dark btn-lg btn-space rounded-pill form-btn-margin">view matching poems</button>
-        </a>
-        <br><br>
-
+            {% csrf_token %}
+            <br><br>
+            <button type="submit" class="btn btn-dark btn-lg btn-space rounded-pill form-btn-margin">view matching poems</button>
+            <br><br>
+        </form>
     </div>
 {% endblock %}

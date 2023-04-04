@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from poetica.forms import DiscoverForm
+
 import random
 import pandas as pd
 import html
@@ -48,7 +50,45 @@ def profile(request):
 
 
 def discover_quiz(request):
-    return render(request, "discover_quiz.html")
+    if request.method == "GET":
+        context = {'form': DiscoverForm()}
+        return render(request, "discover_quiz.html", context)
+
+    form = DiscoverForm(request.POST)
+    if not form.is_valid():
+        context = {'form': form}
+        return render(request, "discover_quiz.html", context)
+
+    poem_df = pd.read_csv('poetica/static/database/poetry_db.csv')
+    emotions_df = pd.read_csv('poetica/static/database/emotions_db.csv')
+
+    poets = (form.cleaned_data['poets']).split(', ')
+    emotions = (form.cleaned_data['emotions']).split(', ')
+    keywords = (form.cleaned_data['keywords']).split(', ')
+
+    poet_dict = (poem_df.loc[poem_df['Poet'].isin(poets)]).to_dict(orient='index')
+    emotions_dict = (emotions_df.loc[emotions_df['First Emotion'].isin(emotions)]).to_dict(orient='index')
+    keywords_dict = (poem_df.loc[poem_df['Poem'].str.contains('|'.join(keywords))]).to_dict(orient='index')
+
+    random_poet = [poet_dict[key]['Id'] for key in random.sample(poet_dict.keys(), min(len(poet_dict), 5))]
+    random_emotions = [emotions_dict[key]['Id'] for key in random.sample(emotions_dict.keys(), min(len(emotions_dict), 5))]
+    random_keywords = [keywords_dict[key]['Id'] for key in random.sample(keywords_dict.keys(), min(len(keywords_dict), 5))]
+
+    poem_ids = list(set(random_poet).union(set(random_emotions), set(random_keywords)))
+
+    poem_dict = (poem_df.loc[poem_df['Id'].isin(poem_ids)]).to_dict(orient='index')
+    poems = {str(index): val for (index, val) in enumerate(poem_dict.values())}
+
+    for poem in poems.values():
+        poem['Poet'] = poem['Poet'].replace('\\r', '').strip()
+        poem['Poem'] = poem['Poem'].replace('\\r', '\n').strip("\\r")
+        poem['Title'] = poem['Title'].replace('\\r', '').strip()
+
+    poem = poems['0']
+
+    context = {'poem': poem, 'poems': poems}
+
+    return render(request, "discover_poem_page.html", context)
 
 
 def discover_poem(request):
@@ -58,12 +98,20 @@ def discover_poem(request):
 def random_poem(request):
     df = pd.read_csv('poetica/static/database/poetry_db.csv')
 
-    id_ind = random.randint(0, len(df.index) - 1)
-    row = df.loc[df['Id'] == id_ind]
+    random_ids = []
+    for i in range(0,5):
+        random_ids.append(random.randint(0, len(df.index) - 1))
+    random_poems = (df.loc[df['Id'].isin(random_ids)]).to_dict(orient='index')
+    poems = {str(index): val for (index, val) in enumerate(random_poems.values())}
 
-    context = {"poet": row['Poet'].to_string(index=False).replace('\\r', '').strip(),
-               "poem": row['Poem'].to_string(index=False).replace('\\r', '\n').strip("\\r"),
-               "title": row['Title'].to_string(index=False).replace('\\r', '').strip()}
+    for poem in poems.values():
+        poem['Poet'] = poem['Poet'].replace('\\r', '').strip()
+        poem['Poem'] = poem['Poem'].replace('\\r', '\n').strip("\\r")
+        poem['Title'] = poem['Title'].replace('\\r', '').strip()
+
+    poem = poems['0']
+
+    context = {'poem': poem, 'poems': poems}
 
     return render(request, "random_poem_page.html", context)
 
@@ -74,3 +122,4 @@ def top_liked_poem(request):
 
 def upload_poem(request):
     return render(request, "upload_poem_page.html")
+
