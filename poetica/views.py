@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from poetica.forms import DiscoverForm
+from poetica.forms import DiscoverForm, UploadForm
 
 import random
 import pandas as pd
@@ -127,7 +127,63 @@ def top_liked_poem(request):
 
 
 def upload_poem(request):
-    return render(request, "upload_poem_page.html")
+    if request.method == "GET":
+        context = {'form': UploadForm()}
+        return render(request, "upload_poem_page.html", context)
+
+    form = UploadForm(request.POST)
+    if not form.is_valid():
+        context = {'form': form}
+        return render(request, "upload_poem_page.html", context)
+
+    poem_df = pd.read_csv('poetica/static/database/poetry_db.csv')
+    emotions_df = pd.read_csv('poetica/static/database/emotions_db.csv')
+
+    title = (form.cleaned_data['title'])
+    poem = (form.cleaned_data['poem'])
+    author = (form.cleaned_data['author'])
+    emotion = (form.cleaned_data['emotion'])
+
+    id_df = poem_df['Id'].idxmax() + 1
+    print(id_df)
+
+    new_row_poem_df = pd.DataFrame({
+        'Title': title,
+        'Poem': poem,
+        'Poet': author,
+        'Id': id_df
+    }, index=[id_df])
+
+    # new_row_poem_df.to_csv('poetica/static/database/poetry_db.csv', mode='a', index=False, header=False)
+
+    new_row_emotions_df = pd.DataFrame({
+        'Id': id_df,
+        'First Emotion': emotion,
+        'Second Emotion': 'anger',
+        'Third Emotion': 'contempt',
+        'anger': 0,
+        'contempt': 0,
+        'disgust': 0,
+        'fear': 0,
+        'disappointment': 0,
+        'shame': 0,
+        'regret': 0,
+        'sadness': 0,
+        'compassion': 0,
+        'relief': 0,
+        'admiration': 0,
+        'love': 0,
+        'contentment': 0,
+        'joy': 0,
+        'pride': 0,
+        'amusement': 0,
+        'interest': 0
+    }, index=[id_df])
+    new_row_emotions_df[emotion] = 1
+    # new_row_emotions_df.to_csv('poetica/static/database/emotions_db.csv', mode='a', index=False, header=False)
+
+    context = {'form': UploadForm()}
+    return render(request, "upload_poem_page.html", context)
 
 
 def left_arrow(request):
