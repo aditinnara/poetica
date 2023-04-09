@@ -53,10 +53,10 @@ def add_to_emotion(emotion, poem_id, df):
     return df
 
 
-# this link won't work, check
-df = pd.read_csv('emotions_db.csv')
-df = update_emotions_allrows(df)
-df.to_csv('emotions_db.csv', encoding='utf-8', index=False)
+# # this link won't work, check
+# df = pd.read_csv('emotions_db.csv')
+# df = update_emotions_allrows(df)
+# df.to_csv('emotions_db.csv', encoding='utf-8', index=False)
 
 # df = add_to_emotion("sadness", 0, df)
 #

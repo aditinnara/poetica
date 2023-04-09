@@ -1,3 +1,4 @@
+from django.forms import Form
 from django.shortcuts import render
 from poetica.forms import DiscoverForm, UploadForm, EmotionForm
 
@@ -166,7 +167,6 @@ def upload_poem(request):
         'Poet': author,
         'Id': id_df
     }, index=[id_df])
-
     new_row_poem_df.to_csv('poetica/static/database/poetry_db.csv', mode='a', index=False, header=False)
 
     new_row_emotions_df = pd.DataFrame({
