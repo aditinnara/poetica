@@ -154,7 +154,7 @@ def upload_poem(request):
         'Id': id_df
     }, index=[id_df])
 
-    # new_row_poem_df.to_csv('poetica/static/database/poetry_db.csv', mode='a', index=False, header=False)
+    new_row_poem_df.to_csv('poetica/static/database/poetry_db.csv', mode='a', index=False, header=False)
 
     new_row_emotions_df = pd.DataFrame({
         'Id': id_df,
@@ -180,7 +180,7 @@ def upload_poem(request):
         'interest': 0
     }, index=[id_df])
     new_row_emotions_df[emotion] = 1
-    # new_row_emotions_df.to_csv('poetica/static/database/emotions_db.csv', mode='a', index=False, header=False)
+    new_row_emotions_df.to_csv('poetica/static/database/emotions_db.csv', mode='a', index=False, header=False)
 
     context = {'form': UploadForm()}
     return render(request, "upload_poem_page.html", context)
