@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from poetica.forms import DiscoverForm, UploadForm
+from poetica.forms import DiscoverForm, UploadForm, EmotionForm
 
 import random
 import pandas as pd
@@ -95,6 +95,9 @@ def discover_quiz(request):
 
 
 def discover_poem(request):
+    if request.method == "GET":
+        context = {'form': EmotionForm()}
+        return render(request, "discover_poem_page.html", context)
     return render(request, "discover_poem_page.html")
 
 
@@ -119,10 +122,17 @@ def random_poem(request):
 
     context = {'poem': poem}
 
+    if request.method == "GET":
+        context = {'form': EmotionForm()}
+        return render(request, "random_poem_page.html", context)
+
     return render(request, "random_poem_page.html", context)
 
 
 def top_liked_poem(request):
+    if request.method == "GET":
+        context = {'form': EmotionForm()}
+        return render(request, "top_liked_poem_page.html", context)
     return render(request, "top_liked_poem_page.html")
 
 
@@ -138,6 +148,9 @@ def upload_poem(request):
 
     poem_df = pd.read_csv('poetica/static/database/poetry_db.csv')
     emotions_df = pd.read_csv('poetica/static/database/emotions_db.csv')
+
+    # TODO: check for preexisting poem
+    # TODO: change the top three emotions every time emotion is updated
 
     title = (form.cleaned_data['title'])
     poem = (form.cleaned_data['poem'])
@@ -199,6 +212,10 @@ def left_arrow(request):
     poem = poems[str(index)]
     context = {'poem': poem}
 
+    if request.method == "GET":
+        context = {'form': EmotionForm()}
+        return render(request, "poem_base.html", context)
+
     return render(request, "poem_base.html", context)
 
 
@@ -214,5 +231,9 @@ def right_arrow(request):
     request.session['index'] = index
     poem = poems[str(index)]
     context = {'poem': poem}
+
+    if request.method == "GET":
+        context = {'form': EmotionForm()}
+        return render(request, "poem_base.html", context)
 
     return render(request, "poem_base.html", context)

@@ -20,6 +20,7 @@ EMOTION_CHOICES = (
     ('interest', ("interest"))
 )
 
+
 class DiscoverForm(forms.Form):
     poets = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': "Audre Lorde, Sylvia Plath, Walt Whitman, Rumi"}))
     emotions = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': "joy, nostalgia, euphoria"}))
@@ -32,3 +33,6 @@ class UploadForm(forms.Form):
     author = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': "Audre Lorde"}))
     emotion = forms.ChoiceField(choices=EMOTION_CHOICES, widget=forms.Select(attrs={'class': "form-control"}))
 
+
+class EmotionForm(forms.Form):
+    emotion = forms.ChoiceField(choices=EMOTION_CHOICES, widget=forms.Select(attrs={'class': "form-control"}))
