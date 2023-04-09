@@ -164,4 +164,7 @@ body {
     word-wrap: break-word;
 }
 
+.bg-pic {
+    background-image: url('media/poem_bg/sadness.png');
+}
 

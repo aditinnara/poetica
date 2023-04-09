@@ -122,6 +122,7 @@ def random_poem(request):
     request.session['poems'] = poems
 
     context = {'poem': poem}
+    print("this happened")
 
     if request.method == "GET":
         context = {'form': EmotionForm()}
@@ -230,10 +231,14 @@ def right_arrow(request):
 
     request.session['index'] = index
     poem = poems[str(index)]
+    print("this is poem", poem)
     context = {'poem': poem}
 
     if request.method == "GET":
+        print("in get")
         context = {'form': EmotionForm()}
         return render(request, "poem_base.html", context)
+
+    print("not in get")
 
     return render(request, "poem_base.html", context)
