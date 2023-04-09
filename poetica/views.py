@@ -100,7 +100,10 @@ def discover_quiz(request):
     request.session['poems'] = poems
 
     context = {'poem': poem}
-    #context['emotion'] = get_emotion(poem['Id'])
+    emotion = get_emotion(poem['Id'])
+    context['emotion'] = emotion
+    pin_str = "https://www.pinterest.com/pin/create/button/?url=http://127.0.0.1:8000/poetica/random-poem&media=" + emotion + ".jpg&description=Poetica"
+    context['pin'] = pin_str
 
     return render(request, "discover_poem_page.html", context)
 
@@ -133,7 +136,10 @@ def random_poem(request):
 
     context = {'poem': poem}
 
-    context['emotion'] = get_emotion(poem['Id'])
+    emotion = get_emotion(poem['Id'])
+    context['emotion'] = emotion
+    pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
+    context['pin'] = pin_str
 
     if request.method == "GET":
         context['form'] = EmotionForm()
@@ -224,7 +230,10 @@ def left_arrow(request):
     poem = poems[str(index)]
     context = {'poem': poem}
 
-    context['emotion'] = get_emotion(poem['Id'])
+    emotion = get_emotion(poem['Id'])
+    context['emotion'] = emotion
+    pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
+    context['pin'] = pin_str
 
     if request.method == "GET":
         context['form'] = EmotionForm()
@@ -246,9 +255,10 @@ def right_arrow(request):
     poem = poems[str(index)]
     context = {'poem': poem}
 
-
-    print("emotion: ", get_emotion(poem['Id']))
-    context['emotion'] = get_emotion(poem['Id'])
+    emotion = get_emotion(poem['Id'])
+    context['emotion'] = emotion
+    pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
+    context['pin'] = pin_str
 
     if request.method == "GET":
         context['form'] = EmotionForm()
