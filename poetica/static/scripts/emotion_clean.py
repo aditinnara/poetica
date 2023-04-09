@@ -43,6 +43,9 @@ def update_emotion_onerow(poem_id, df):
 
 def add_to_emotion(emotion, poem_id, df):
 
+    if emotion == 'empty':
+        return df
+
     row = df.loc[df['Id'] == poem_id]
     index_tmp = df.index[df['Id'] == poem_id]
     index = df.at[index_tmp[0], 'Id']
