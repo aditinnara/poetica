@@ -10,6 +10,15 @@ pd.set_option('display.max_colwidth', None)
 # Create your views here.
 
 
+def get_emotion(poem_id):
+    df = pd.read_csv('poetica/static/database/emotions_db.csv')
+    row = df.loc[df.index == poem_id]
+    index_tmp = df.index[df['Id'] == poem_id]
+    index = df.at[index_tmp[0], 'Id']
+
+    return df.at[index, 'First Emotion']
+
+
 def get_rand_quote():
     quote_dict = {
         "Rumi": "I know you're tired but come, this is the way.",
@@ -91,6 +100,7 @@ def discover_quiz(request):
     request.session['poems'] = poems
 
     context = {'poem': poem}
+    #context['emotion'] = get_emotion(poem['Id'])
 
     return render(request, "discover_poem_page.html", context)
 
@@ -122,10 +132,11 @@ def random_poem(request):
     request.session['poems'] = poems
 
     context = {'poem': poem}
-    print("this happened")
+
+    context['emotion'] = get_emotion(poem['Id'])
 
     if request.method == "GET":
-        context = {'form': EmotionForm()}
+        context['form'] = EmotionForm()
         return render(request, "random_poem_page.html", context)
 
     return render(request, "random_poem_page.html", context)
@@ -213,8 +224,10 @@ def left_arrow(request):
     poem = poems[str(index)]
     context = {'poem': poem}
 
+    context['emotion'] = get_emotion(poem['Id'])
+
     if request.method == "GET":
-        context = {'form': EmotionForm()}
+        context['form'] = EmotionForm()
         return render(request, "poem_base.html", context)
 
     return render(request, "poem_base.html", context)
@@ -231,14 +244,15 @@ def right_arrow(request):
 
     request.session['index'] = index
     poem = poems[str(index)]
-    print("this is poem", poem)
     context = {'poem': poem}
 
+
+    print("emotion: ", get_emotion(poem['Id']))
+    context['emotion'] = get_emotion(poem['Id'])
+
     if request.method == "GET":
-        print("in get")
-        context = {'form': EmotionForm()}
+        context['form'] = EmotionForm()
         return render(request, "poem_base.html", context)
 
-    print("not in get")
 
     return render(request, "poem_base.html", context)

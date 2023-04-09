@@ -159,12 +159,82 @@ body {
 
 .card {
     max-width: 100%;
+
 }
 .card-text {
     word-wrap: break-word;
 }
 
-.bg-pic {
-    background-image: url('media/poem_bg/sadness.png');
+.fear {
+    background-image: url('media/poem_bg/fear.jpg');
 }
+
+.sadness {
+    background-image: url('media/poem_bg/sadness.jpg');
+}
+
+.love {
+    background-image: url('media/poem_bg/love.jpg');
+}
+
+.contempt {
+    background-image: url('media/poem_bg/contempt.jpg');
+}
+
+.disappointment {
+    background-image: url('media/poem_bg/disappointment.jpg');
+}
+
+.admiration {
+    background-image: url('media/poem_bg/admiration.jpg');
+}
+
+.amusement {
+    background-image: url('media/poem_bg/amusement.jpg');
+}
+
+.anger {
+    background-image: url('media/poem_bg/anger.jpg');
+}
+
+.contentment {
+    background-image: url('media/poem_bg/contentment.jpg');
+}
+
+.disappointment {
+    background-image: url('media/poem_bg/disappointment.jpg');
+}
+
+.disgust {
+    background-image: url('media/poem_bg/disgust.jpg');
+}
+
+.interest {
+    background-image: url('media/poem_bg/interest.jpg');
+}
+
+.joy {
+    background-image: url('media/poem_bg/joy.jpg');
+}
+
+.pride {
+    background-image: url('media/poem_bg/pride.jpg');
+}
+
+.regret {
+    background-image: url('media/poem_bg/regret.jpg');
+}
+
+.relief {
+    background-image: url('media/poem_bg/relief.jpg');
+}
+
+.compassion {
+    background-image: url('media/poem_bg/compassion.jpg');
+}
+
+.shame {
+    background-image: url('media/poem_bg/shame.jpg');
+}
+
 
