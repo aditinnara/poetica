@@ -83,6 +83,8 @@ def discover_quiz(request):
     random_poet = [poet_dict[key]['Id'] for key in random.sample(poet_dict.keys(), min(len(poet_dict), 5))]
     random_emotions = [emotions_dict[key]['Id'] for key in random.sample(emotions_dict.keys(), min(len(emotions_dict), 5))]
     random_keywords = [keywords_dict[key]['Id'] for key in random.sample(keywords_dict.keys(), min(len(keywords_dict), 5))]
+    if keywords == ['']:
+        random_keywords = []
 
     poem_ids = list(set(random_poet).union(set(random_emotions), set(random_keywords)))
 
@@ -110,7 +112,7 @@ def discover_quiz(request):
 
 def discover_poem(request):
     if request.method == "GET":
-        context = {'form': EmotionForm()}
+        context['form'] = EmotionForm()
         return render(request, "discover_poem_page.html", context)
     return render(request, "discover_poem_page.html")
 
@@ -150,7 +152,7 @@ def random_poem(request):
 
 def top_liked_poem(request):
     if request.method == "GET":
-        context = {'form': EmotionForm()}
+        context['form'] = EmotionForm()
         return render(request, "top_liked_poem_page.html", context)
     return render(request, "top_liked_poem_page.html")
 

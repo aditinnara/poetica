@@ -23,10 +23,15 @@ EMOTION_CHOICES = (
 
 
 class DiscoverForm(forms.Form):
-    poets = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': "Audre Lorde, Sylvia Plath, Walt Whitman, Rumi"}))
-    emotions = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': "joy, nostalgia, euphoria"}))
-    keywords = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': "breadcrumbs, fawn, carousel"}))
+    poets = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': "Audre Lorde, Sylvia Plath, Walt Whitman, Rumi"}))
+    emotions = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': "joy, regret, compassion"}))
+    keywords = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': "breadcrumbs, fawn, carousel"}))
+    def clean(self):
+        cleaned_data = super().clean()
+        if not any(cleaned_data[x] for x in ['poets', 'emotions', 'keywords']):
+            raise forms.ValidationError("You must fill out at least one of the fields.")
 
+        return cleaned_data
 
 
 class UploadForm(forms.Form):
