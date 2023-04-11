@@ -1,6 +1,15 @@
 from django.forms import Form
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from poetica.forms import DiscoverForm, UploadForm, EmotionForm
+from poetica.forms import LoginForm, RegisterForm, ProfileForm
+from poetica.models import Profile
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as auth_logout
 
 import random
 import pandas as pd
@@ -40,25 +49,75 @@ def get_rand_quote():
     rand_ind = random.randint(0, len(quote_dict)-1)
     return [list(quote_dict)[rand_ind], list(quote_dict.values())[rand_ind]]
 
-
+@login_required
 def home(request):
     return render(request, "mainpage.html")
 
 
 def login(request):
+    context = {}
+
     quote = get_rand_quote()
-    return render(request, "login_page.html", {"quote": quote[1], "poet": quote[0]})
+    context['quote'] = quote[1]
+    context['poet'] = quote[0]
+
+    if request.method == "GET":
+        context['form'] = LoginForm()
+        return render(request, 'login_page.html', context)
+
+    form = LoginForm(request.POST)
+    context['form'] = form
+
+    if not form.is_valid():
+        return render(request, 'login_page.html', context)
+
+    user = authenticate(username=form.cleaned_data['username'],
+                        password=form.cleaned_data['password'])
+    
+    auth_login(request, user)
+    return redirect(reverse('home'))
 
 
 def register(request):
+    context = {}
+
     quote = get_rand_quote()
-    return render(request, "register_page.html", {"quote": quote[1], "poet": quote[0]})
+    context['quote'] = quote[1]
+    context['poet'] = quote[0]
+
+    if request.method == "GET":
+        context['form'] = RegisterForm()
+        return render(request, "register_page.html", context)
+
+    form = RegisterForm(request.POST)
+    context['form'] = form
+
+    if not form.is_valid():
+        return render(request, 'register_page.html', context)
+
+    new_user = User.objects.create_user(username=form.cleaned_data['username'],
+                                        password=form.cleaned_data['password'],
+                                        email=form.cleaned_data['email'])
+
+    new_user.save()
+
+    new_user = authenticate(username=form.cleaned_data['username'],
+                            password=form.cleaned_data['password'])
+
+    auth_login(request, new_user)
+
+    new_profile = Profile(user=new_user)
+    new_profile.save()
+
+    return redirect(reverse('home'))
 
 
+@login_required
 def profile(request):
     return render(request, "profile_page.html")
 
 
+@login_required
 def discover_quiz(request):
     if request.method == "GET":
         context = {'form': DiscoverForm()}
@@ -110,6 +169,7 @@ def discover_quiz(request):
     return render(request, "discover_poem_page.html", context)
 
 
+@login_required
 def discover_poem(request):
     context = {}
     if request.method == "GET":
@@ -118,6 +178,7 @@ def discover_poem(request):
     return render(request, "discover_poem_page.html")
 
 
+@login_required
 def random_poem(request):
     df = pd.read_csv('poetica/static/database/poetry_db.csv')
 
@@ -151,6 +212,7 @@ def random_poem(request):
     return render(request, "random_poem_page.html", context)
 
 
+@login_required
 def top_liked_poem(request):
     context = {}
     if request.method == "GET":
@@ -159,6 +221,7 @@ def top_liked_poem(request):
     return render(request, "top_liked_poem_page.html")
 
 
+@login_required
 def upload_poem(request):
     if request.method == "GET":
         context = {'form': UploadForm()}
@@ -221,6 +284,7 @@ def upload_poem(request):
     return render(request, "upload_poem_page.html", context)
 
 
+@login_required
 def left_arrow(request):
     index = request.session['index']
     poems = request.session['poems']
@@ -246,6 +310,7 @@ def left_arrow(request):
     return render(request, "poem_base.html", context)
 
 
+@login_required
 def right_arrow(request):
     index = request.session['index']
     poems = request.session['poems']

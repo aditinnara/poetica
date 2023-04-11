@@ -16,41 +16,50 @@
         welcome, reader.
     </div>
     <br>
-
-    <div class="form-group row">
-        <label class="my-1 mr-2 mleft-23">email</label>
-        <div class="col-sm-10 mleft-23">
-            <input class="form-control" id="emailForm" placeholder="">
-        </div>
+    
+    <div>
+        <form method="post" action="{% url 'register' %}">
+            {{ form.non_field_errors }}
+            <div class="form-group row">
+                {{ form.email.errors }}
+                <label class="my-1 mr-2 mleft-23">email</label>
+                <div class="col-sm-10 mleft-23">
+                    {{ form.email }}
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                {{ form.username.errors }}
+                <label class="my-1 mr-2 mleft-23">username</label>
+                <div class="col-sm-10 mleft-23">
+                    {{ form.username }}
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                {{ form.password.errors }}
+                <label class="my-1 mr-2 mleft-23">password</label>
+                <div class="col-sm-10 mleft-23">
+                    {{ form.password }}
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                {{ form.confirm_password.errors }}
+                <label class="my-1 mr-2 mleft-23">confirm password</label>
+                <div class="col-sm-10 mleft-23">
+                    {{ form.confirm_password }}
+                </div>
+            </div>
+            {% csrf_token %}
+            <br>
+            <div class="col-sm-12 text-center">
+                <button type="submit" id="register_btn" class="btn btn-dark btn-md center-block" style="width: 100px;">sign up</button>
+            </div>
+            <br>    
+        </form>
     </div>
-    <br>
-    <div class="form-group row">
-        <label class="my-1 mr-2 mleft-23">username</label>
-        <div class="col-sm-10 mleft-23">
-            <input class="form-control" id="usernameForm" placeholder="">
-        </div>
-    </div>
-    <br>
-    <div class="form-group row">
-        <label class="my-1 mr-2 mleft-23">password</label>
-        <div class="col-sm-10 mleft-23">
-            <input type="password" class="form-control" id="passwordForm">
-        </div>
-    </div>
-    <br>
-    <div class="form-group row">
-        <label class="my-1 mr-2 mleft-23">confirm password</label>
-        <div class="col-sm-10 mleft-23">
-            <input type="password" class="form-control" id="passwordConfirmForm">
-        </div>
-    </div>
-
-    <br>
-    <div class="col-sm-12 text-center">
-        <button id="register_btn" class="btn btn-dark btn-md center-block" style="width: 100px;" >sign up</button>
-    </div>
-    <br>
-
+    
     <div class="text-center">
         already have an account?
         <a href="{% url 'login' %}" class="link"> login. </a>

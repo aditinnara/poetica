@@ -17,25 +17,33 @@
     </div>
     <br><br>
 
-    <div class="form-group row">
-        <label class="my-1 mr-2 mleft-23">username</label>
-        <div class="col-sm-10 mleft-23">
-            <input class="form-control" id="usernameForm" placeholder="">
-        </div>
+    <div>
+        <form method="post" action="{% url 'login' %}">
+            {{ form.non_field_errors }}
+            <div class="form-group row">
+                {{ form.username.errors }}
+                <label class="my-1 mr-2 mleft-23">username</label>
+                <div class="col-sm-10 mleft-23">
+                    {{ form.username }}
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                {{ form.password.errors }}
+                <label class="my-1 mr-2 mleft-23">password</label>
+                <div class="col-sm-10 mleft-23">
+                    {{ form.password }}
+                </div>
+            </div>
+            <br>
+            {% csrf_token %}
+            <div class="col-sm-12 text-center">
+                <button type="submit" id="login_btn" class="btn btn-dark btn-md center-block" style="width: 100px;" >login</button>
+                <a href="{% url 'register' %}" style="text-decoration:none;">
+                    <button type="button" id="register_btn" class="btn btn-dark btn-md center-block" style="width: 100px;" >register</button>
+                </a>
+            </div>
+        </form>
     </div>
-    <br>
-    <div class="form-group row">
-        <label class="my-1 mr-2 mleft-23">password</label>
-        <div class="col-sm-10 mleft-23">
-            <input type="password" class="form-control" id="passwordForm">
-        </div>
-    </div>
-    <br>
-
-    <div class="col-sm-12 text-center">
-        <button id="login_btn" class="btn btn-dark btn-md center-block" style="width: 100px;" >login</button>
-        <a href="{% url 'register' %}" style="text-decoration:none;">
-            <button id="register_btn" class="btn btn-dark btn-md center-block" style="width: 100px;" >register</button>
-        </a>
-    </div>
+    
 {% endblock %}

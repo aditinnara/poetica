@@ -122,3 +122,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Used by the @login_required decorator to redirect to the login action
+LOGIN_URL = '/poetica/login'
+
+# Default URL to redirect to after a user logs in
+LOGIN_REDIRECT_URL = '/poetica/home'
