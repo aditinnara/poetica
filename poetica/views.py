@@ -128,7 +128,7 @@ def discover_quiz(request):
         context = {'form': form}
         return render(request, "discover_quiz.html", context)
 
-    poem_df = pd.read_csv('poetica/static/database/poetry_db.csv')
+    poem_df = pd.read_csv('poetica/static/database/working_poetry_db.csv')
     emotions_df = pd.read_csv('poetica/static/database/emotions_db.csv')
 
     poets = (form.cleaned_data['poets']).split(', ')
@@ -180,7 +180,7 @@ def discover_poem(request):
 
 @login_required
 def random_poem(request):
-    df = pd.read_csv('poetica/static/database/poetry_db.csv')
+    df = pd.read_csv('poetica/static/database/working_poetry_db.csv')
 
     random_ids = []
     for i in range(0,5):
@@ -232,7 +232,7 @@ def upload_poem(request):
         context = {'form': form}
         return render(request, "upload_poem_page.html", context)
 
-    poem_df = pd.read_csv('poetica/static/database/poetry_db.csv')
+    poem_df = pd.read_csv('poetica/static/database/working_poetry_db.csv')
     emotions_df = pd.read_csv('poetica/static/database/emotions_db.csv')
 
     # TODO: check for preexisting poem
@@ -252,7 +252,7 @@ def upload_poem(request):
         'Poet': author,
         'Id': id_df
     }, index=[id_df])
-    new_row_poem_df.to_csv('poetica/static/database/poetry_db.csv', mode='a', index=False, header=False)
+    new_row_poem_df.to_csv('poetica/static/database/working_poetry_db.csv', mode='a', index=False, header=False)
 
     new_row_emotions_df = pd.DataFrame({
         'Id': id_df,
