@@ -25,7 +25,7 @@ def clean_poetry_db():
             currentPoet = row['Poet']
             numPoems = 0
 
-    df.to_csv('cleaned_poetry.csv', encoding='utf-8')
+    df.to_csv('poetry_db.csv', encoding='utf-8')
 
 
 def get_poem_id(title, poet):
@@ -35,7 +35,7 @@ def get_poem_id(title, poet):
         return -1
 
     file_dir = os.path.dirname(__file__)
-    csv_path = os.path.join(file_dir, "..", "database", "poetry_db.csv")
+    csv_path = os.path.join(file_dir, "..", "database", "working_poetry_db.csv")
     df = pd.read_csv(csv_path)
 
     id = df.loc[(df['Title'] == title) & (df['Poet'] == poet)]['Id']
