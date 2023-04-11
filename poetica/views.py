@@ -111,6 +111,7 @@ def discover_quiz(request):
 
 
 def discover_poem(request):
+    context = {}
     if request.method == "GET":
         context['form'] = EmotionForm()
         return render(request, "discover_poem_page.html", context)
@@ -151,6 +152,7 @@ def random_poem(request):
 
 
 def top_liked_poem(request):
+    context = {}
     if request.method == "GET":
         context['form'] = EmotionForm()
         return render(request, "top_liked_poem_page.html", context)
