@@ -74,11 +74,11 @@ def discover_quiz(request):
 
     poets = (form.cleaned_data['poets']).split(', ')
     emotions = (form.cleaned_data['emotions']).split(', ')
-    keywords = (form.cleaned_data['keywords']).split(', ')
+    keywords = [x.lower() for x in ((form.cleaned_data['keywords']).split(', '))]
 
-    poet_dict = (poem_df.loc[poem_df['Poet'].isin(poets)]).to_dict(orient='index')
-    emotions_dict = (emotions_df.loc[emotions_df['First Emotion'].isin(emotions)]).to_dict(orient='index')
-    keywords_dict = (poem_df.loc[poem_df['Poem'].str.contains('|'.join(keywords))]).to_dict(orient='index')
+    poet_dict = (poem_df.loc[poem_df['Poet'].str.lower().isin(x.lower() for x in poets)]).to_dict(orient='index')
+    emotions_dict = (emotions_df.loc[emotions_df['First Emotion'].str.lower().isin(emotions)]).to_dict(orient='index')
+    keywords_dict = (poem_df.loc[poem_df['Poem'].str.lower().str.contains('|'.join(keywords))]).to_dict(orient='index')
 
     random_poet = [poet_dict[key]['Id'] for key in random.sample(poet_dict.keys(), min(len(poet_dict), 5))]
     random_emotions = [emotions_dict[key]['Id'] for key in random.sample(emotions_dict.keys(), min(len(emotions_dict), 5))]
