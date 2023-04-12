@@ -167,74 +167,92 @@ body {
 
 .fear {
     background-image: url('media/poem_bg/fear.jpg');
+    background-size: cover;
 }
 
 .sadness {
     background-image: url('media/poem_bg/sadness.jpg');
+    background-size: cover;
 }
 
 .love {
     background-image: url('media/poem_bg/love.jpg');
+    background-size: cover;
 }
 
 .contempt {
     background-image: url('media/poem_bg/contempt.jpg');
+    background-size: cover;
 }
 
 .disappointment {
     background-image: url('media/poem_bg/disappointment.jpg');
+    background-size: cover;
 }
 
 .admiration {
     background-image: url('media/poem_bg/admiration.jpg');
+    background-size: cover;
 }
 
 .amusement {
     background-image: url('media/poem_bg/amusement.jpg');
+    background-size: cover;
 }
 
 .anger {
     background-image: url('media/poem_bg/anger.jpg');
+    background-size: cover;
 }
 
 .contentment {
     background-image: url('media/poem_bg/contentment.jpg');
+    background-size: cover;
 }
 
 .disappointment {
     background-image: url('media/poem_bg/disappointment.jpg');
+    background-size: cover;
 }
 
 .disgust {
     background-image: url('media/poem_bg/disgust.jpg');
+    background-size: cover;
 }
 
 .interest {
     background-image: url('media/poem_bg/interest.jpg');
+    background-size: cover;
 }
 
 .joy {
     background-image: url('media/poem_bg/joy.jpg');
+    background-size: cover;
 }
 
 .pride {
     background-image: url('media/poem_bg/pride.jpg');
+    background-size: cover;
 }
 
 .regret {
     background-image: url('media/poem_bg/regret.jpg');
+    background-size: cover;
 }
 
 .relief {
     background-image: url('media/poem_bg/relief.jpg');
+     background-size: cover;
 }
 
 .compassion {
     background-image: url('media/poem_bg/compassion.jpg');
+    background-size: cover;
 }
 
 .shame {
     background-image: url('media/poem_bg/shame.jpg');
+    background-size: cover;
 }
 
 
