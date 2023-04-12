@@ -132,7 +132,6 @@ body {
   height: 5vw;
   width: 5vw;
   border-style: solid;
-  border-color: #d4bbfa;
   border-width: 0px 4px 4px 0px;
   transform: rotate(135deg);
 }
@@ -142,7 +141,6 @@ body {
   height: 5vw;
   width: 5vw;
   border-style: solid;
-  border-color: #d4bbfa;
   border-width: 0px 4px 4px 0px;
   transform: rotate(-45deg);
 }
@@ -165,6 +163,7 @@ body {
     word-wrap: break-word;
 }
 
+/* background images related to emotions */
 .fear {
     background-image: url('media/poem_bg/fear.jpg');
     background-size: cover;
@@ -253,6 +252,79 @@ body {
 .shame {
     background-image: url('media/poem_bg/shame.jpg');
     background-size: cover;
+}
+
+/* background color for arrows related to emotions */
+.fear-arrow {
+  border-color: #747CBA !important;
+}
+
+.sadness-arrow {
+  border-color: #818995 !important;
+}
+
+.love-arrow {
+  border-color: #CBA5AD !important;
+}
+
+.contempt-arrow {
+  border-color: #A44136 !important;
+}
+
+.disappointment-arrow {
+  border-color: #D59B86 !important;
+}
+
+.admiration-arrow {
+  border-color: #BCBAC7 !important;
+}
+
+.amusement-arrow {
+  border-color: #E59266 !important;
+}
+
+.anger-arrow {
+  border-color: #C0433C !important;
+}
+
+.contentment-arrow {
+  border-color: #695F87 !important;
+}
+
+.disappointment-arrow {
+  border-color: #D19B88 !important;
+}
+
+.disgust-arrow {
+  border-color: #A5B68E !important;
+}
+
+.interest-arrow {
+  border-color: #BEC1CE !important;
+}
+
+.joy-arrow {
+  border-color: #9FAFA0 !important;
+}
+
+.pride-arrow {
+  border-color: #B39C8B !important;
+}
+
+.regret-arrow {
+  border-color: #565169 !important;
+}
+
+.relief-arrow {
+  border-color: #DB8E9E !important;
+}
+
+.compassion-arrow {
+  border-color: #B26D3E !important;
+}
+
+.shame-arrow {
+  border-color: #E6C286 !important;
 }
 
 

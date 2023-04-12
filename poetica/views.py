@@ -163,6 +163,7 @@ def discover_quiz(request):
     context = {'poem': poem}
     emotion = get_emotion(poem['Id'])
     context['emotion'] = emotion
+    context['arrow_color'] = emotion + "-arrow"
     pin_str = "https://www.pinterest.com/pin/create/button/?url=http://127.0.0.1:8000/poetica/random-poem&media=" + emotion + ".jpg&description=Poetica"
     context['pin'] = pin_str
 
@@ -202,6 +203,7 @@ def random_poem(request):
 
     emotion = get_emotion(poem['Id'])
     context['emotion'] = emotion
+    context['arrow_color'] = emotion + "-arrow"
     pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
     context['pin'] = pin_str
 
@@ -300,6 +302,7 @@ def left_arrow(request):
 
     emotion = get_emotion(poem['Id'])
     context['emotion'] = emotion
+    context['arrow_color'] = emotion + "-arrow"
     pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
     context['pin'] = pin_str
 
@@ -326,6 +329,7 @@ def right_arrow(request):
 
     emotion = get_emotion(poem['Id'])
     context['emotion'] = emotion
+    context['arrow_color'] = emotion + "-arrow"
     pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
     context['pin'] = pin_str
 
