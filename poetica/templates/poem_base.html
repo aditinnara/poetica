@@ -55,7 +55,7 @@
 </div>
 <br>
 <div class="row justify-content-center">
-    <form method="post">
+    <form method="post" action="{% url 'emotion-submit' %}">
 
         {% if form.non_field_errors %}
         <div class="alert alert-info" role="alert">
@@ -63,16 +63,184 @@
         </div>
         {%endif%}
 
-        <div class="form-group row justify-content-center">
-            {{ form.emotion.errors }}
-            <label class="my-1 mr-2 mleft-23 text-center">what emotion do you associate with this poem?</label>
-            <div class="col-sm-10 mleft-23">
-                {{ form.emotion }}
+        <div class="container">
+            <div class="row  align-items-center">
+                <div class="form-group align-items-center">
+                    {{ form.emotion.errors }}
+                    <label class="my-1 mr-2 mleft-23 text-center">what emotion do you associate with this poem?</label>
+                    <div class="col-sm-10 mleft-23">
+                        {{ form.emotion }}
+                    </div>
+                    {% csrf_token %}
+                    <br>
+                    <button type="submit" class="btn btn-dark btn-lg btn-space rounded-pill form-btn-margin">submit</button>
+                </div>
+
             </div>
         </div>
     </form>
 </div>
+<br>
 
+
+
+
+<div class="center-screen container w-75">
+    <table class="charts-css column show-heading  hide-data show-data-axes show-primary-axis show-labels"
+    id="emotion-chart">
+
+      <caption> here's what others thought... </caption>
+
+      <thead>
+        <tr>
+          <th scope="col"> Emotions </th>
+          <th scope="col"> # of Times Chosen </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <th scope="row" class="small-th"> admiration </th>
+          <td style="--size: calc( {{admirationgraph}} / {{topvoted}} );">
+              {% if admirationgraph > 0 %}
+              {{admirationgraph}}
+              {%endif%}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row" class="small-th"> amusement </th>
+          <td style="--size: calc( {{amusementgraph}} / {{topvoted}} );">
+              {% if amusementgraph > 0 %}
+              {{amusementgraph}}
+              {%endif%}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row" class="small-th"> anger </th>
+          <td style="--size: calc( {{angergraph}} / {{topvoted}} );">
+              {% if angergraph > 0 %}
+              {{angergraph}}
+              {%endif%}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row" class="small-th"> compassion </th>
+          <td style="--size: calc( {{compassiongraph}} / {{topvoted}} );">
+              {% if compassiongraph > 0 %}
+              {{compassiongraph}}
+              {%endif%}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row" class="small-th"> contempt </th>
+          <td style="--size: calc( {{contemptgraph}} / {{topvoted}} );">
+              {% if contemptgraph > 0 %}
+              {{contemptgraph}}
+              {%endif%}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row" class="small-th"> contentment </th>
+          <td style="--size: calc( {{contentmentgraph}} / {{topvoted}} );">
+              {% if contentmentgraph > 0 %}
+              {{contentmentgraph}}
+              {%endif%}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row" class="small-th"> disappointment </th>
+          <td style="--size: calc( {{disappointmentgraph}} / {{topvoted}} );">
+              {% if disappointmentgraph > 0 %}
+              {{disappointmentgraph}}
+              {%endif%}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row" class="small-th"> disgust </th>
+          <td style="--size: calc( {{disgustgraph}} / {{topvoted}} );">
+              {% if disgustgraph > 0 %}
+              {{disgustgraph}}
+              {%endif%}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row" class="small-th"> fear </th>
+          <td style="--size: calc( {{feargraph}} / {{topvoted}} );">
+              {% if feargraph > 0 %}
+              {{feargraph}}
+              {%endif%}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row" class="small-th"> interest </th>
+          <td style="--size: calc( {{interestgraph}} / {{topvoted}} );">
+              {% if interestgraph > 0 %}
+              {{interestgraph}}
+              {%endif%}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row" class="small-th"> joy </th>
+          <td style="--size: calc( {{joygraph}} / {{topvoted}} );">
+              {% if joygraph > 0 %}
+              {{joygraph}}
+              {%endif%}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row" class="small-th"> love </th>
+          <td style="--size: calc( {{lovegraph}} / {{topvoted}} );">
+              {% if lovegraph > 0 %}
+              {{lovegraph}}
+              {%endif%}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row" class="small-th"> pride </th>
+          <td style="--size: calc( {{pridegraph}} / {{topvoted}} );">
+              {% if pridegraph > 0 %}
+              {{pridegraph}}
+              {%endif%}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row" class="small-th"> regret </th>
+          <td style="--size: calc( {{regretgraph}} / {{topvoted}} );">
+              {% if regretgraph > 0 %}
+              {{regretgraph}}
+              {%endif%}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row" class="small-th"> relief </th>
+          <td style="--size: calc( {{reliefgraph}} / {{topvoted}} );">
+              {% if reliefgraph > 0 %}
+              {{reliefgraph}}
+              {%endif%}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row" class="small-th"> sadness </th>
+          <td style="--size: calc( {{sadnessgraph}} / {{topvoted}} );">
+              {% if sadnessgraph > 0 %}
+              {{sadnessgraph}}
+              {%endif%}
+          </td>
+        </tr>
+        <tr>
+          <th scope="row" class="small-th"> shame </th>
+          <td style="--size: calc( {{shamegraph}} / {{topvoted}} );">
+              {% if shamegraph > 0 %}
+              {{shamegraph}}
+              {%endif%}
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+</div>
 
 
 

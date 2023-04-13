@@ -47,7 +47,7 @@ class ProfilePicForm(forms.ModelForm):
             raise forms.ValidationError('File type is not image')
         if profile_picture.size > MAX_UPLOAD_SIZE:
             raise forms.ValidationError('File too big (max size is {0} bytes)'.format(MAX_UPLOAD_SIZE))
-        return picture
+        return profile_picture
 
 
 class ProfileBioForm(forms.ModelForm):

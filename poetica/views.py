@@ -35,6 +35,34 @@ def get_emotion(poem_id):
 
     return df.at[index, 'First Emotion']
 
+def get_emotion_graph(poem_id):
+    df = pd.read_csv('poetica/static/database/emotions_db.csv')
+    row = df.loc[df.index == poem_id]
+    index_tmp = df.index[df['Id'] == poem_id]
+    index = df.at[index_tmp[0], 'Id']
+    
+    graph_dict = {"admirationgraph": df.at[index, 'admiration'],
+            "amusementgraph": df.at[index, 'amusement'],
+            "angergraph": df.at[index, 'anger'],
+            "compassiongraph": df.at[index, 'compassion'],
+            "contemptgraph": df.at[index, 'contempt'],
+            "contentmentgraph": df.at[index, 'contentment'],
+            "disappointmentgraph": df.at[index, 'disappointment'],
+            "disgustgraph": df.at[index, 'disgust'],
+            "feargraph": df.at[index, 'fear'],
+            "interestgraph": df.at[index, 'interest'],
+            "joygraph": df.at[index, 'joy'],
+            "lovegraph": df.at[index, 'love'],
+            "pridegraph": df.at[index, 'pride'],
+            "regretgraph": df.at[index, 'regret'],
+            "reliefgraph": df.at[index, 'relief'],
+            "sadnessgraph": df.at[index, 'sadness'],
+            "shamegraph": df.at[index, 'shame'],
+            "topvoted": df.at[index, df.at[index, 'First Emotion']]}
+    print(graph_dict)
+
+    return graph_dict
+
 
 def get_rand_quote():
     quote_dict = {
@@ -153,6 +181,12 @@ def profile(request):
     return render(request, "profile_page.html", context)
 
 
+def emotion_submit(request):
+    print(request.POST)
+    return render(request, "poem_base.html")
+
+
+
 @login_required
 def discover_quiz(request):
     if request.method == "GET":
@@ -216,6 +250,8 @@ def discover_quiz(request):
     context = {'poem': poem}
     emotion = get_emotion(poem['Id'])
     context['emotion'] = emotion
+    context.update(get_emotion_graph(poem['Id']))
+
     context['arrow_color'] = emotion + "-arrow"
     pin_str = "https://www.pinterest.com/pin/create/button/?url=http://127.0.0.1:8000/poetica/random-poem&media=" + emotion + ".jpg&description=Poetica"
     context['pin'] = pin_str
@@ -255,6 +291,9 @@ def random_poem(request):
     context = {'poem': poem}
 
     emotion = get_emotion(poem['Id'])
+    context.update(get_emotion_graph(poem['Id']))
+
+
     context['emotion'] = emotion
     context['arrow_color'] = emotion + "-arrow"
     pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
@@ -263,6 +302,8 @@ def random_poem(request):
     if request.method == "GET":
         context['form'] = EmotionForm()
         return render(request, "random_poem_page.html", context)
+
+    print(context)
 
     return render(request, "random_poem_page.html", context)
 
@@ -299,7 +340,6 @@ def upload_poem(request):
     emotion = (form.cleaned_data['emotion'])
 
     id_df = poem_df['Id'].idxmax() + 1
-    print(id_df)
 
     new_row_poem_df = pd.DataFrame({
         'Title': title,
@@ -354,6 +394,8 @@ def left_arrow(request):
     context = {'poem': poem}
 
     emotion = get_emotion(poem['Id'])
+    context.update(get_emotion_graph(poem['Id']))
+
     context['emotion'] = emotion
     context['arrow_color'] = emotion + "-arrow"
     pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
@@ -383,6 +425,8 @@ def right_arrow(request):
 
     emotion = get_emotion(poem['Id'])
     context['emotion'] = emotion
+    context.update(get_emotion_graph(poem['Id']))
+
     context['arrow_color'] = emotion + "-arrow"
     pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
     context['pin'] = pin_str
