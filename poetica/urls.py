@@ -13,4 +13,5 @@ urlpatterns = [
     path('upload-poem', views.upload_poem, name='upload-poem'),
     path('left-arrow', views.left_arrow, name='left-arrow'),
     path('right-arrow', views.right_arrow, name='right-arrow'),
+    path('photo/<int:id>', views.get_photo, name='photo'),
 ]

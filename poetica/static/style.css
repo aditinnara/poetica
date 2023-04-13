@@ -165,6 +165,38 @@ body {
     word-wrap: break-word;
 }
 
+.profilepic-container {
+    width: 150px;
+    height: 150px;
+    display: block;
+    margin: 0 auto;
+}
+
+.profilepic {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 200px !important;
+    max-height: 200px !important;
+    margin: auto;
+    position: relative;
+}
+
+.editprofile {
+    background-color: #e6d6fe;
+    border-style: solid;
+    border-width: 2px;
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.editprofile:hover {
+    background-color: #d4bbfa;
+}
+
 .fear {
     background-image: url('media/poem_bg/fear.jpg');
 }

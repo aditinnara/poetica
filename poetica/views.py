@@ -1,8 +1,9 @@
 from django.forms import Form
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse, Http404
 from django.urls import reverse
 from poetica.forms import DiscoverForm, UploadForm, EmotionForm
-from poetica.forms import LoginForm, RegisterForm, ProfileForm
+from poetica.forms import LoginForm, RegisterForm, ProfilePicForm, ProfileBioForm
 from poetica.models import Profile
 
 from django.contrib.auth.decorators import login_required
@@ -114,7 +115,35 @@ def register(request):
 
 @login_required
 def profile(request):
-    return render(request, "profile_page.html")
+    if request.method == "GET":
+        context = {'profile': request.user.profile, 'picform': ProfilePicForm(), 'bioform': ProfileBioForm(initial={'bio': request.user.profile.bio})}
+        return render(request, "profile_page.html", context)
+    
+    bioform = ProfileBioForm(initial={'bio': request.user.profile.bio})
+    picform = ProfilePicForm()
+    profile = get_object_or_404(Profile, id=request.user.id)
+
+    if 'update-bio' in request.POST:
+        bioform = ProfileBioForm(request.POST)
+        if not bioform.is_valid():
+            context = {'profile': request.user.profile, 'picform': picform, 'bioform': bioform}
+            return render(request, "profile_page.html", context)
+        profile.user = request.user
+        profile.bio = bioform.cleaned_data['bio']
+        profile.save()
+
+    else:
+        picform = ProfilePicForm(request.POST, request.FILES)
+        if not picform.is_valid():
+            context = {'profile': request.user.profile, 'picform': picform, 'bioform': bioform}
+            return render(request, "profile_page.html", context)
+        profile.user = request.user
+        profile.profile_picture = picform.cleaned_data['profile_picture']
+        profile.content_type = picform.cleaned_data['profile_picture'].content_type
+        profile.save()
+
+    context = {'profile': profile, 'picform': ProfilePicForm(),'bioform': ProfileBioForm(instance=request.user.profile)}
+    return render(request, "profile_page.html", context)
 
 
 @login_required
@@ -335,3 +364,11 @@ def right_arrow(request):
 
 
     return render(request, "poem_base.html", context)
+
+
+@login_required
+def get_photo(request, id):
+    info = get_object_or_404(Profile, id=id)
+    print('Photo #{} fetched from database: {} (type={})'.format(id, info.profile_picture, type(info.profile_picture)))
+
+    return HttpResponse(info.profile_picture, content_type=info.content_type)

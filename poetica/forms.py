@@ -28,16 +28,14 @@ EMOTION_CHOICES = (
 
 MAX_UPLOAD_SIZE = 2500000
 
-class ProfileForm(forms.ModelForm):
+class ProfilePicForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('bio', 'profile_picture')
+        fields = ('profile_picture',)
         widgets = {
-            'bio': forms.Textarea(attrs={'id':'id_bio_input_text'}),
-            'profile_picture': forms.FileInput(attrs={'id':'id_profile_picture'})
+            'profile_picture': forms.FileInput(attrs={'style': "display: none;", 'onchange': "submit();"})
         }
         labels = {
-            'bio': "",
             'profile_picture': "Profile Picture"
         }
 
@@ -50,6 +48,18 @@ class ProfileForm(forms.ModelForm):
         if profile_picture.size > MAX_UPLOAD_SIZE:
             raise forms.ValidationError('File too big (max size is {0} bytes)'.format(MAX_UPLOAD_SIZE))
         return picture
+
+
+class ProfileBioForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('bio',)
+        widgets = {
+            'bio': forms.Textarea(attrs={'id':"user_bio_area", 'class': "form-control", 'rows': 5, 'placeholder': "your bio here"}),
+        }
+        labels = {
+            'bio': "",
+        }
 
 
 class LoginForm(forms.Form):

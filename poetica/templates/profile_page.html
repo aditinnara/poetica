@@ -8,24 +8,44 @@
     <br><br>
 
     <div class="d-flex mb-4 mleft-20">
+        
         <div class="flex-shrink-0">
-            <img src="/static/media/dummypfp.png"
-                 class="rounded-circle"
-              style="width: 200px;height:200px;">
+            <form enctype="multipart/form-data" action="{% url 'profile' %}" method="post">
+                {{ picform.non_field_errors }}
+                <div class="profilepic-container" style="width: 200px;height:200px;">
+                    <div class="profilepic">
+                        {% if not profile.profile_picture %}
+                            <img src="/static/media/dummypfp.png" class="rounded-circle" style="width: 200px;height:200px;">
+                        {% else %}
+                            <img src="{% url 'photo' profile.user.id %}" class="rounded-circle" style="width: 200px;height:200px;">
+                        {% endif %}
+                        {{ picform.profile_picture.errors }}
+                        {{ picform.profile_picture }}
+                        <label for="id_profile_picture" class="editprofile">
+                            <i class="bi bi-camera" style="font-size: 30px;display: flex;position: absolute;top: 12px; left: 13px;"></i>
+                        </label>
+                        {% csrf_token %}
+                    </div>
+                </div>
+            </form>
         </div>
-
-        <div class="flex-grow-1 ms-3 mleft-20 display-5" >
-            username
+        <div class="flex-grow-1 ms-3 mleft-20 display-5">
+            {{profile.user.username}}
             <br>
-            <div class="form-group mright-20">
-                <textarea class="form-control" id="user_bio_area" rows="5" placeholder="your bio here"></textarea>
-            </div>
-            <button type="button" class="btn btn-dark btn-lg btn-space rounded-pill">update profile</button>
+            <form enctype="multipart/form-data" action="{% url 'profile' %}" method="post">
+                {{ bioform.non_field_errors }}
+                <div class="form-group mright-20">
+                    {{ bioform.bio.errors }}
+                    {{ bioform.bio }}
+                </div>
+                {% csrf_token %}
+                <button type="submit" class="btn btn-dark btn-lg btn-space rounded-pill" name="update-bio">update bio</button>
+            </form>
         </div>
     </div>
 
     <br><br>
-    <div class="mleft-20 display-6"> username's saved poetry </div>
+    <div class="mleft-20 display-6"> {{profile.user.username}}'s saved poetry </div>
     <br>
 
     <div class="mleft-20">
