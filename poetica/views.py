@@ -4,7 +4,7 @@ from django.http import HttpResponse, Http404
 from django.urls import reverse
 from poetica.forms import DiscoverForm, UploadForm, EmotionForm
 from poetica.forms import LoginForm, RegisterForm, ProfilePicForm, ProfileBioForm
-from poetica.models import Profile
+from poetica.models import Profile, Comment, Reply, Comment
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -14,10 +14,17 @@ from django.contrib.auth import logout as auth_logout
 
 import random
 import pandas as pd
+import json
 import html
 
 pd.set_option('display.max_colwidth', None)
 # Create your views here.
+
+
+def _my_json_error_response(message, status=200):
+    # You can create your JSON by constructing the string representation yourself (or just use json.dumps)
+    response_json = '{"error": "' + message + '"}'
+    return HttpResponse(response_json, content_type='application/json', status=status)
 
 
 def get_emotion(poem_id):
@@ -158,7 +165,10 @@ def discover_quiz(request):
         return render(request, "discover_quiz.html", context)
 
     poem_df = pd.read_csv('poetica/static/database/poetry_db.csv')
+    poem_df = poem_df.dropna()
+
     emotions_df = pd.read_csv('poetica/static/database/emotions_db.csv')
+    emotions_df = emotions_df.dropna()
 
     poets = (form.cleaned_data['poets']).split(', ')
     emotions = (form.cleaned_data['emotions']).split(', ')
@@ -168,9 +178,17 @@ def discover_quiz(request):
     emotions_dict = (emotions_df.loc[emotions_df['First Emotion'].str.lower().isin(emotions)]).to_dict(orient='index')
     keywords_dict = (poem_df.loc[poem_df['Poem'].str.lower().str.contains('|'.join(keywords))]).to_dict(orient='index')
 
-    random_poet = [poet_dict[key]['Id'] for key in random.sample(poet_dict.keys(), min(len(poet_dict), 5))]
-    random_emotions = [emotions_dict[key]['Id'] for key in random.sample(emotions_dict.keys(), min(len(emotions_dict), 5))]
-    random_keywords = [keywords_dict[key]['Id'] for key in random.sample(keywords_dict.keys(), min(len(keywords_dict), 5))]
+    random_poet = ""
+    random_emotions = ""
+    random_keywords = ""
+
+    if poet_dict:
+        random_poet = [poet_dict[key]['Id'] for key in random.sample(poet_dict.keys(), min(len(poet_dict), 5))]
+    if emotions_dict:
+        random_emotions = [emotions_dict[key]['Id'] for key in random.sample(emotions_dict.keys(), min(len(emotions_dict), 5))]
+    if keywords_dict:
+        random_keywords = [keywords_dict[key]['Id'] for key in random.sample(keywords_dict.keys(), min(len(keywords_dict), 5))]
+
     if keywords == ['']:
         random_keywords = []
 
@@ -182,10 +200,15 @@ def discover_quiz(request):
     for poem in poems.values():
         poem['Poet'] = poem['Poet'].replace('\\r', '').strip()
         poem['Poem'] = poem['Poem'].replace('\\r', '\n').strip("\\r")
-        #todo: fix tab
         poem['Title'] = poem['Title'].replace('\\r', '').strip()
 
-    poem = poems['0']
+    if poems:
+        poem = poems['0']
+    else:
+        # case where theres no poems to show
+        form.add_error(None, "No poems matched your criteria! If you would like to see a poem with your input, try uploading one or changing your criteria.")
+        context = {'form': form}
+        return render(request, "discover_quiz.html", context)
 
     request.session['index'] = 0
     request.session['poems'] = poems
@@ -328,7 +351,6 @@ def left_arrow(request):
 
     request.session['index'] = index
     poem = poems[str(index)]
-    # todo: fix tab
     context = {'poem': poem}
 
     emotion = get_emotion(poem['Id'])
@@ -356,7 +378,6 @@ def right_arrow(request):
 
     request.session['index'] = index
     poem = poems[str(index)]
-    #todo: fix tab
 
     context = {'poem': poem}
 
@@ -380,3 +401,4 @@ def get_photo(request, id):
     print('Photo #{} fetched from database: {} (type={})'.format(id, info.profile_picture, type(info.profile_picture)))
 
     return HttpResponse(info.profile_picture, content_type=info.content_type)
+

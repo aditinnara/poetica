@@ -16,7 +16,11 @@
 
     <div>
         <form method="post" action="{% url 'discover-quiz' %}">
-            {{ form.non_field_errors }}
+            {% if form.non_field_errors %}
+            <div class="alert alert-info" role="alert">
+                {{ form.non_field_errors }}
+            </div>
+            {%endif%}
             <div class="form-group row">
                 {{ form.poets.errors }}
                 <label class="my-1 mr-2 mleft-23">what poets would you like to read from?</label>
