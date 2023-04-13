@@ -157,7 +157,7 @@ def discover_quiz(request):
         context = {'form': form}
         return render(request, "discover_quiz.html", context)
 
-    poem_df = pd.read_csv('poetica/static/database/working_poetry_db.csv')
+    poem_df = pd.read_csv('poetica/static/database/poetry_db.csv')
     emotions_df = pd.read_csv('poetica/static/database/emotions_db.csv')
 
     poets = (form.cleaned_data['poets']).split(', ')
@@ -182,6 +182,7 @@ def discover_quiz(request):
     for poem in poems.values():
         poem['Poet'] = poem['Poet'].replace('\\r', '').strip()
         poem['Poem'] = poem['Poem'].replace('\\r', '\n').strip("\\r")
+        #todo: fix tab
         poem['Title'] = poem['Title'].replace('\\r', '').strip()
 
     poem = poems['0']
@@ -192,6 +193,7 @@ def discover_quiz(request):
     context = {'poem': poem}
     emotion = get_emotion(poem['Id'])
     context['emotion'] = emotion
+    context['arrow_color'] = emotion + "-arrow"
     pin_str = "https://www.pinterest.com/pin/create/button/?url=http://127.0.0.1:8000/poetica/random-poem&media=" + emotion + ".jpg&description=Poetica"
     context['pin'] = pin_str
 
@@ -209,7 +211,7 @@ def discover_poem(request):
 
 @login_required
 def random_poem(request):
-    df = pd.read_csv('poetica/static/database/working_poetry_db.csv')
+    df = pd.read_csv('poetica/static/database/poetry_db.csv')
 
     random_ids = []
     for i in range(0,5):
@@ -231,6 +233,7 @@ def random_poem(request):
 
     emotion = get_emotion(poem['Id'])
     context['emotion'] = emotion
+    context['arrow_color'] = emotion + "-arrow"
     pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
     context['pin'] = pin_str
 
@@ -261,7 +264,7 @@ def upload_poem(request):
         context = {'form': form}
         return render(request, "upload_poem_page.html", context)
 
-    poem_df = pd.read_csv('poetica/static/database/working_poetry_db.csv')
+    poem_df = pd.read_csv('poetica/static/database/poetry_db.csv')
     emotions_df = pd.read_csv('poetica/static/database/emotions_db.csv')
 
     # TODO: check for preexisting poem
@@ -281,7 +284,7 @@ def upload_poem(request):
         'Poet': author,
         'Id': id_df
     }, index=[id_df])
-    new_row_poem_df.to_csv('poetica/static/database/working_poetry_db.csv', mode='a', index=False, header=False)
+    new_row_poem_df.to_csv('poetica/static/database/poetry_db.csv', mode='a', index=False, header=False)
 
     new_row_emotions_df = pd.DataFrame({
         'Id': id_df,
@@ -325,10 +328,12 @@ def left_arrow(request):
 
     request.session['index'] = index
     poem = poems[str(index)]
+    # todo: fix tab
     context = {'poem': poem}
 
     emotion = get_emotion(poem['Id'])
     context['emotion'] = emotion
+    context['arrow_color'] = emotion + "-arrow"
     pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
     context['pin'] = pin_str
 
@@ -351,10 +356,13 @@ def right_arrow(request):
 
     request.session['index'] = index
     poem = poems[str(index)]
+    #todo: fix tab
+
     context = {'poem': poem}
 
     emotion = get_emotion(poem['Id'])
     context['emotion'] = emotion
+    context['arrow_color'] = emotion + "-arrow"
     pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
     context['pin'] = pin_str
 
