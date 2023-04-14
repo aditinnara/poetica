@@ -4,7 +4,7 @@ from django.http import HttpResponse, Http404
 from django.urls import reverse
 from poetica.forms import DiscoverForm, UploadForm, EmotionForm
 from poetica.forms import LoginForm, RegisterForm, ProfilePicForm, ProfileBioForm
-from poetica.models import Profile, Comment, Reply, Comment
+from poetica.models import Profile, Comment, Reply
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -190,8 +190,18 @@ def register(request):
 
 @login_required
 def profile(request):
+    poem_df = pd.read_csv('poetica/static/database/poetry_db.csv')
+    starred_ids = request.user.profile.starred
+    starred_dict = (poem_df.loc[poem_df['Id'].isin(starred_ids)]).to_dict(orient='index')
+    starred = [val for (index, val) in enumerate(starred_dict.values())]
+
+    for poem in starred:
+        poem['Poet'] = poem['Poet'].replace('\\r', '').strip()
+        poem['Poem'] = poem['Poem'].replace('\\r', '\n').strip("\\r")
+        poem['Title'] = poem['Title'].replace('\\r', '').strip()
+
     if request.method == "GET":
-        context = {'profile': request.user.profile, 'picform': ProfilePicForm(), 'bioform': ProfileBioForm(initial={'bio': request.user.profile.bio})}
+        context = {'starred': starred, 'profile': request.user.profile, 'picform': ProfilePicForm(), 'bioform': ProfileBioForm(initial={'bio': request.user.profile.bio})}
         return render(request, "profile_page.html", context)
     
     bioform = ProfileBioForm(initial={'bio': request.user.profile.bio})
@@ -201,7 +211,7 @@ def profile(request):
     if 'update-bio' in request.POST:
         bioform = ProfileBioForm(request.POST)
         if not bioform.is_valid():
-            context = {'profile': request.user.profile, 'picform': picform, 'bioform': bioform}
+            context = {'starred': starred, 'profile': request.user.profile, 'picform': picform, 'bioform': bioform}
             return render(request, "profile_page.html", context)
         profile.user = request.user
         profile.bio = bioform.cleaned_data['bio']
@@ -210,14 +220,14 @@ def profile(request):
     else:
         picform = ProfilePicForm(request.POST, request.FILES)
         if not picform.is_valid():
-            context = {'profile': request.user.profile, 'picform': picform, 'bioform': bioform}
+            context = {'starred': starred, 'profile': request.user.profile, 'picform': picform, 'bioform': bioform}
             return render(request, "profile_page.html", context)
         profile.user = request.user
         profile.profile_picture = picform.cleaned_data['profile_picture']
         profile.content_type = picform.cleaned_data['profile_picture'].content_type
         profile.save()
 
-    context = {'profile': profile, 'picform': ProfilePicForm(),'bioform': ProfileBioForm(instance=request.user.profile)}
+    context = {'starred': starred, 'profile': profile, 'picform': ProfilePicForm(),'bioform': ProfileBioForm(instance=request.user.profile)}
     return render(request, "profile_page.html", context)
 
 
@@ -518,4 +528,57 @@ def get_photo(request, id):
     print('Photo #{} fetched from database: {} (type={})'.format(id, info.profile_picture, type(info.profile_picture)))
 
     return HttpResponse(info.profile_picture, content_type=info.content_type)
+
+@login_required
+def star(request, id):
+    index = request.session['index']
+    poems = request.session['poems']
+    poem = poems[str(index)]
+
+    context = {'poem': poem}
+
+    emotion = get_emotion(poem['Id'])
+    context['emotion'] = emotion
+    context['poem_id'] = int(poem['Id'])
+
+    context['arrow_color'] = emotion + "-arrow"
+
+    pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
+    context['pin'] = pin_str
+    context['form'] = EmotionForm()
+
+    starred = request.user.profile.starred
+    star_set = set(starred)
+    star_set.add(id)
+    request.user.profile.starred = list(star_set)
+    request.user.profile.save()
+
+    return render(request, "poem_base.html", context)
+
+
+@login_required
+def unstar(request, id):
+    index = request.session['index']
+    poems = request.session['poems']
+    poem = poems[str(index)]
+
+    context = {'poem': poem}
+
+    emotion = get_emotion(poem['Id'])
+    context['emotion'] = emotion
+    context['poem_id'] = int(poem['Id'])
+
+    context['arrow_color'] = emotion + "-arrow"
+
+    pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
+    context['pin'] = pin_str
+    context['form'] = EmotionForm()
+
+    starred = request.user.profile.starred
+    star_set = set(starred)
+    star_set.remove(id)
+    request.user.profile.starred = list(star_set)
+    request.user.profile.save()
+
+    return render(request, "poem_base.html", context)
 

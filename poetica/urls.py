@@ -15,4 +15,6 @@ urlpatterns = [
     path('left-arrow', views.left_arrow, name='left-arrow'),
     path('right-arrow', views.right_arrow, name='right-arrow'),
     path('photo/<int:id>', views.get_photo, name='photo'),
+    path('star/<int:id>', views.star, name='star'),
+    path('unstar/<int:id>', views.unstar, name='unstar'),
 ]

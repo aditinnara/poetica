@@ -28,8 +28,17 @@
                 <span style="display: inline-block; vertical-align: middle;"><a data-scroll href="#"
                                                                                 class="link-warning"
                                                                                 style="text-decoration: none">
-                        <i class="bi bi-star" style="font-size: 30px;display: flex;"></i>
-                    </a></span>
+                        
+                    {% if poem_id in request.user.profile.starred %}
+                        <a href="{% url 'unstar' poem_id %}" style="text-decoration: none;" class="link-warning">
+                            <i class="bi bi-star-fill" style="font-size: 30px;display: flex;"></i>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'star' poem_id %}" style="text-decoration: none;" class="link-warning">
+                            <i class="bi bi-star" style="font-size: 30px;display: flex;"></i>
+                        </a>
+                    {% endif %}
+                </a></span>
                 <script async defer src="//assets.pinterest.com/js/pinit.js"></script>
             </div>
             <div class="card-body">

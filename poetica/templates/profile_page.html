@@ -49,19 +49,11 @@
     <br>
 
     <div class="mleft-20">
-        <ul>
-           <img src="/static/media/saved_poem_dummy_icon.png" class="icons img-cover">
-            &nbsp; "One Art" — Elizabeth Bishop
-        </ul>
-
-        <ul>
-           <img src="/static/media/saved_poem_dummy_icon.png" class="icons img-cover">
-            &nbsp; "Song of Myself" — Walt Whitman
-        </ul>
-
-        <ul>
-           <img src="/static/media/saved_poem_dummy_icon.png" class="icons img-cover">
-            &nbsp; "Bell Jar" — Sylvia Plath
-        </ul>
+        {% for poem in starred %}
+            <ul>
+                <img src="/static/media/saved_poem_dummy_icon.png" class="icons img-cover">
+                &nbsp; "{{ poem.Title }}" — {{ poem.Poet }}
+            </ul>
+        {% endfor %}
     </div>
 {% endblock %}
