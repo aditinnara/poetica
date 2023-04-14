@@ -54,8 +54,12 @@
     </div>
 </div>
 <br>
+
+{% if not graph_display %}
 <div class="row justify-content-center" id="emotion_form_div">
-    <form method="post" action="" onsubmit="return false">
+
+
+    <form method="post" action="{% url 'emotion-submit' poem_id%}" id="emotion_form">
 
         {% if form.non_field_errors %}
         <div class="alert alert-info" role="alert">
@@ -73,19 +77,20 @@
                     </div>
                     {% csrf_token %}
                     <br>
-                    <button onclick="emotionSubmit()" type="submit" class="btn btn-dark btn-lg btn-space rounded-pill form-btn-margin">submit</button>
+                    <button type="submit" class="btn btn-dark btn-lg btn-space rounded-pill form-btn-margin">submit</button>
                 </div>
 
             </div>
         </div>
     </form>
 </div>
+{%endif%}
 <br>
 
 
 
-
-<div class="center-screen container w-75" id="graph_div" style="display:none;">
+{% if graph_display %}
+<div class="center-screen container w-75" id="graph_div">
     <table class="charts-css column show-heading hide-data show-data-axes show-primary-axis show-labels"
     id="emotion-chart">
 
@@ -241,6 +246,7 @@
     </table>
 
 </div>
+{%endif%}
 
 
 
@@ -355,15 +361,5 @@
     </div>
 </div>
 
-<script>
-    function emotionSubmit() {
-      var form = document.getElementById("emotion_form_div");
-      var graph = document.getElementById("graph_div");
-
-
-      graph.style.display = "block";
-      form.style.display = "none";
-    }
-</script>
 
 {% endblock %}

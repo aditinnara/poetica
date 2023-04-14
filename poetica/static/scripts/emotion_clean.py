@@ -41,19 +41,19 @@ def update_emotion_onerow(poem_id, df):
     return df
 
 
-def add_to_emotion(emotion, poem_id, df):
+def add_to_emotion(emotion, poem_id):
+    df = pd.read_csv('emotions_db.csv')
 
     if emotion == 'empty':
         return df
 
-    row = df.loc[df['Id'] == poem_id]
     index_tmp = df.index[df['Id'] == poem_id]
     index = df.at[index_tmp[0], 'Id']
 
     df.at[index, emotion] += 1
 
     df = update_emotion_onerow(poem_id, df)
-    return df
+    df.to_csv('emotions_db.csv', encoding='utf-8', index=False)
 
 
 # # this link won't work, check

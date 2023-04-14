@@ -134,3 +134,14 @@ class UploadForm(forms.Form):
 
 class EmotionForm(forms.Form):
     emotion = forms.ChoiceField(choices=EMOTION_CHOICES, widget=forms.Select(attrs={'class': "form-control"}))
+    def clean(self):
+        # Calls our parent (forms.Form) .clean function, gets a dictionary
+        # of cleaned data as a result
+        cleaned_data = super().clean()
+        emotion = cleaned_data.get('emotion')
+
+        if emotion == 'empty':
+            raise forms.ValidationError("You must input an emotion.")
+
+        # We must return the cleaned data we got from our parent.
+        return cleaned_data

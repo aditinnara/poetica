@@ -20,6 +20,43 @@ import html
 pd.set_option('display.max_colwidth', None)
 # Create your views here.
 
+def update_emotion_onerow(poem_id, df):
+
+    row = df.loc[df.index == poem_id]
+    index_tmp = df.index[df['Id'] == poem_id]
+    index = df.at[index_tmp[0], 'Id']
+
+    d = row.to_dict('records')[0]
+
+    del d['Id']
+    del d['First Emotion']
+    del d['Second Emotion']
+    del d['Third Emotion']
+
+    top_three = sorted(d, key=d.get, reverse=True)[:3]
+
+    df.at[index, 'First Emotion'] = top_three[0]
+    df.at[index, 'Second Emotion'] = top_three[1]
+    df.at[index, 'Third Emotion'] = top_three[2]
+
+    return df
+
+
+def add_to_emotion(emotion, poem_id):
+    df = pd.read_csv('poetica/static/database/emotions_db.csv')
+
+    if emotion == 'empty':
+        return df
+
+    index_tmp = df.index[df['Id'] == poem_id]
+    index = df.at[index_tmp[0], 'Id']
+
+    df.at[index, emotion] += 1
+
+    df = update_emotion_onerow(poem_id, df)
+    df.to_csv('poetica/static/database/emotions_db.csv', encoding='utf-8', index=False)
+
+
 
 def _my_json_error_response(message, status=200):
     # You can create your JSON by constructing the string representation yourself (or just use json.dumps)
@@ -28,14 +65,17 @@ def _my_json_error_response(message, status=200):
 
 
 def get_emotion(poem_id):
+    poem_id = int(poem_id)
     df = pd.read_csv('poetica/static/database/emotions_db.csv')
     row = df.loc[df.index == poem_id]
+
     index_tmp = df.index[df['Id'] == poem_id]
     index = df.at[index_tmp[0], 'Id']
 
     return df.at[index, 'First Emotion']
 
 def get_emotion_graph(poem_id):
+    poem_id = int(poem_id)
     df = pd.read_csv('poetica/static/database/emotions_db.csv')
     row = df.loc[df.index == poem_id]
     index_tmp = df.index[df['Id'] == poem_id]
@@ -181,9 +221,39 @@ def profile(request):
     return render(request, "profile_page.html", context)
 
 
-def emotion_submit(request):
-    print(request.POST)
-    return render(request, "poem_base.html")
+def emotion_submit(request, poem_id):
+    if request.method == "POST":
+        form = EmotionForm(request.POST)
+        if form.is_valid():
+            emotion = form.cleaned_data['emotion']
+            print(emotion)
+            add_to_emotion(emotion, poem_id)
+        else:
+            print("You didn't input an emotion!")
+
+    df = pd.read_csv('poetica/static/database/poetry_db.csv')
+
+    poem = df.loc[df['Id'] == int(poem_id)]
+    poem['Poet'] = poem['Poet'].to_string(index=False)
+
+    poem = {'Poet': poem['Poet'].to_string(index=False),
+            'Poem': poem['Poem'].to_string(index=False).replace('\\n', '\n'),
+            'Title': poem['Title'].to_string(index=False),
+            'Id': poem_id}
+
+    context = {'poem': poem}
+    context['poem_id'] = int(poem_id)
+
+    emotion = get_emotion(poem['Id'])
+    context['emotion'] = emotion
+    context.update(get_emotion_graph(poem_id))
+
+    context['arrow_color'] = emotion + "-arrow"
+    pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
+    context['pin'] = pin_str
+    context['graph_display'] = True
+
+    return render(request, "poem_base.html", context)
 
 
 
@@ -250,11 +320,13 @@ def discover_quiz(request):
     context = {'poem': poem}
     emotion = get_emotion(poem['Id'])
     context['emotion'] = emotion
-    context.update(get_emotion_graph(poem['Id']))
+    context['poem_id'] = int(poem['Id'])
 
     context['arrow_color'] = emotion + "-arrow"
     pin_str = "https://www.pinterest.com/pin/create/button/?url=http://127.0.0.1:8000/poetica/random-poem&media=" + emotion + ".jpg&description=Poetica"
     context['pin'] = pin_str
+
+    context['form'] = EmotionForm()
 
     return render(request, "discover_poem_page.html", context)
 
@@ -272,8 +344,9 @@ def discover_poem(request):
 def random_poem(request):
     df = pd.read_csv('poetica/static/database/poetry_db.csv')
 
+
     random_ids = []
-    for i in range(0,5):
+    for i in range(0, 5):
         random_ids.append(random.randint(0, len(df.index) - 1))
     random_poems = (df.loc[df['Id'].isin(random_ids)]).to_dict(orient='index')
     poems = {str(index): val for (index, val) in enumerate(random_poems.values())}
@@ -291,7 +364,7 @@ def random_poem(request):
     context = {'poem': poem}
 
     emotion = get_emotion(poem['Id'])
-    context.update(get_emotion_graph(poem['Id']))
+    context['poem_id'] = int(poem['Id'])
 
 
     context['emotion'] = emotion
@@ -303,7 +376,6 @@ def random_poem(request):
         context['form'] = EmotionForm()
         return render(request, "random_poem_page.html", context)
 
-    print(context)
 
     return render(request, "random_poem_page.html", context)
 
@@ -394,7 +466,7 @@ def left_arrow(request):
     context = {'poem': poem}
 
     emotion = get_emotion(poem['Id'])
-    context.update(get_emotion_graph(poem['Id']))
+    context['poem_id'] = int(poem['Id'])
 
     context['emotion'] = emotion
     context['arrow_color'] = emotion + "-arrow"
@@ -425,11 +497,12 @@ def right_arrow(request):
 
     emotion = get_emotion(poem['Id'])
     context['emotion'] = emotion
-    context.update(get_emotion_graph(poem['Id']))
+    context['poem_id'] = int(poem['Id'])
 
     context['arrow_color'] = emotion + "-arrow"
     pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
     context['pin'] = pin_str
+    context['form'] = EmotionForm()
 
     if request.method == "GET":
         context['form'] = EmotionForm()
