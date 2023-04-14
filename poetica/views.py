@@ -231,6 +231,7 @@ def profile(request):
     return render(request, "profile_page.html", context)
 
 
+@login_required
 def emotion_submit(request, poem_id):
     if request.method == "POST":
         form = EmotionForm(request.POST)
@@ -243,12 +244,12 @@ def emotion_submit(request, poem_id):
 
     df = pd.read_csv('poetica/static/database/poetry_db.csv')
 
-    poem = df.loc[df['Id'] == int(poem_id)]
-    poem['Poet'] = poem['Poet'].to_string(index=False)
+    poem = df.loc[df['Id'] == poem_id]
+    poem = (poem.to_dict(orient='index'))[poem_id]
 
-    poem = {'Poet': poem['Poet'].to_string(index=False).replace('\\n', ''),
-            'Poem': poem['Poem'].to_string(index=False).replace('\\n', '\n'),
-            'Title': poem['Title'].to_string(index=False).replace('\\n', ''),
+    poem = {'Poet': poem['Poet'].replace('\\r', '').strip(),
+            'Poem': poem['Poem'].replace('\\r', '\n').strip("\\r"),
+            'Title': poem['Title'].replace('\\r', '').strip(),
             'Id': poem_id}
 
     context = {'poem': poem}
