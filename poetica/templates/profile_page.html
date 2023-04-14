@@ -22,7 +22,7 @@
                         {{ picform.profile_picture.errors }}
                         {{ picform.profile_picture }}
                         <label for="id_profile_picture" class="editprofile">
-                            <i class="bi bi-camera" style="font-size: 30px;display: flex;position: absolute;top: 12px; left: 13px;"></i>
+                            <i class="bi bi-camera" style="font-size: 30px;display: flex;position: absolute;top: 12.6px; left: 13.4px;"></i>
                         </label>
                         {% csrf_token %}
                     </div>
@@ -51,9 +51,8 @@
     <div class="mleft-20">
         {% for poem in starred %}
             <ul>
-                <i class="bi bi-square-fill {{ poem.emotion }}"></i>
-<!--                <img src="/static/media/saved_poem_dummy_icon.png" class="icons img-cover">-->
-                &nbsp; "{{ poem.Title }}" — {{ poem.Poet }}
+                <img src="/static/media/saved_poem_dummy_icon.png" class="icons img-cover">
+                <a href="{% %}">&nbsp; "{{ poem.Title }}" — {{ poem.Poet }}</a>
             </ul>
         {% endfor %}
     </div>
