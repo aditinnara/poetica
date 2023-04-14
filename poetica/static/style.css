@@ -441,6 +441,79 @@ body {
   color: #E6C286 !important;
 }
 
+/* color for down arrow links */
+.fear-arrow {
+  color: #747CBA !important;
+}
+
+.sadness-arrow {
+  color: #818995 !important;
+}
+
+.love-arrow {
+  color: #CBA5AD !important;
+}
+
+.contempt-arrow {
+  color: #A44136 !important;
+}
+
+.disappointment-arrow {
+  color: #D59B86 !important;
+}
+
+.admiration-arrow {
+  color: #BCBAC7 !important;
+}
+
+.amusement-arrow {
+  color: #E59266 !important;
+}
+
+.anger-arrow {
+  color: #C0433C !important;
+}
+
+.contentment-arrow {
+  color: #695F87 !important;
+}
+
+.disappointment-arrow {
+  color: #D19B88 !important;
+}
+
+.disgust-arrow {
+  color: #A5B68E !important;
+}
+
+.interest-arrow {
+  color: #BEC1CE !important;
+}
+
+.joy-arrow {
+  color: #9FAFA0 !important;
+}
+
+.pride-arrow {
+  color: #B39C8B !important;
+}
+
+.regret-arrow {
+  color: #565169 !important;
+}
+
+.relief-arrow {
+  color: #DB8E9E !important;
+}
+
+.compassion-arrow {
+  color: #B26D3E !important;
+}
+
+.shame-arrow {
+  color: #E6C286 !important;
+}
+
 .small-th {
     font-size: 10px !important;
 }

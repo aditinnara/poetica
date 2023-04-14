@@ -52,7 +52,7 @@
         {% for poem in starred %}
             <ul>
                 <a href="{% url 'starred-poem' poem.Id %}" class="text-decoration-none">
-                    <img src="/static/media/saved_poem_dummy_icon.png" class="icons img-cover">
+                    <i class="bi bi-square-fill {{poem.emotion}}"></i>
                 </a>
                 &nbsp; "{{ poem.Title }}" — {{ poem.Poet }}
             </ul>

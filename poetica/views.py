@@ -199,6 +199,7 @@ def profile(request):
         poem['Poet'] = poem['Poet'].replace('\\r', '').strip()
         poem['Poem'] = poem['Poem'].replace('\\r', '\n').strip("\\r")
         poem['Title'] = poem['Title'].replace('\\r', '').strip()
+        poem['emotion'] = get_emotion(poem['Id']) + "-arrow"
 
     if request.method == "GET":
         context = {'starred': starred, 'profile': request.user.profile, 'picform': ProfilePicForm(), 'bioform': ProfileBioForm(initial={'bio': request.user.profile.bio})}
