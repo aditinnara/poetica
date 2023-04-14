@@ -51,8 +51,10 @@
     <div class="mleft-20">
         {% for poem in starred %}
             <ul>
-                <img src="/static/media/saved_poem_dummy_icon.png" class="icons img-cover">
-                <a href="{% %}">&nbsp; "{{ poem.Title }}" — {{ poem.Poet }}</a>
+                <a href="{% url 'starred-poem' poem.Id %}" class="text-decoration-none">
+                    <img src="/static/media/saved_poem_dummy_icon.png" class="icons img-cover">
+                </a>
+                &nbsp; "{{ poem.Title }}" — {{ poem.Poet }}
             </ul>
         {% endfor %}
     </div>

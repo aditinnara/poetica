@@ -267,6 +267,39 @@ def emotion_submit(request, poem_id):
     return render(request, "poem_base.html", context)
 
 
+@login_required
+def starred_poem(request, poem_id):
+    poem_df = pd.read_csv('poetica/static/database/poetry_db.csv')
+    starred_ids = request.user.profile.starred
+    starred_dict = (poem_df.loc[poem_df['Id'].isin(starred_ids)]).to_dict(orient='index')
+    poems = {str(index): val for (index, val) in enumerate(starred_dict.values())}
+
+    for poem in poems.values():
+        poem['Poet'] = poem['Poet'].replace('\\r', '').strip()
+        poem['Poem'] = poem['Poem'].replace('\\r', '\n').strip("\\r")
+        poem['Title'] = poem['Title'].replace('\\r', '').strip()
+
+    poem = starred_dict[poem_id]
+
+    key_list = list(poems.keys())
+    value_list = list(poems.values())
+
+    request.session['index'] = int(key_list[value_list.index(poem)])
+    request.session['poems'] = poems
+
+    context = {'poem': poem}
+    emotion = get_emotion(poem_id)
+    context['emotion'] = emotion
+    context.update(get_emotion_graph(poem_id))
+    context['poem_id'] = int(poem_id)
+
+    context['arrow_color'] = emotion + "-arrow"
+    pin_str = "https://www.pinterest.com/pin/create/button/?url=http://127.0.0.1:8000/poetica/random-poem&media=" + emotion + ".jpg&description=Poetica"
+    context['pin'] = pin_str
+    context['graph_display'] = True
+
+    return render(request, "poem_base.html", context)
+
 
 @login_required
 def discover_quiz(request):
