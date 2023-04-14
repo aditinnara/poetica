@@ -236,9 +236,9 @@ def emotion_submit(request, poem_id):
     poem = df.loc[df['Id'] == int(poem_id)]
     poem['Poet'] = poem['Poet'].to_string(index=False)
 
-    poem = {'Poet': poem['Poet'].to_string(index=False),
+    poem = {'Poet': poem['Poet'].to_string(index=False).replace('\\n', ''),
             'Poem': poem['Poem'].to_string(index=False).replace('\\n', '\n'),
-            'Title': poem['Title'].to_string(index=False),
+            'Title': poem['Title'].to_string(index=False).replace('\\n', ''),
             'Id': poem_id}
 
     context = {'poem': poem}

@@ -302,7 +302,7 @@ Id,First Emotion,Second Emotion,Third Emotion,anger,contempt,disgust,fear,disapp
 300,anger,fear,sadness,4,2,0,4,0,2,0,3,0,0,3,2,0,1,2,0,1
 301,disgust,sadness,relief,1,2,4,2,1,1,1,4,0,4,2,0,2,0,2,2,4
 302,fear,regret,sadness,1,1,0,4,3,3,4,4,2,0,1,0,1,2,0,4,0
-303,contempt,disgust,fear,2,4,4,4,2,1,1,3,2,4,1,0,2,3,0,1,2
+303,relief,contempt,disgust,2,4,4,4,2,1,1,3,2,5,1,0,2,3,0,1,2
 304,anger,contempt,fear,4,4,1,4,0,0,2,1,1,4,1,3,0,2,0,2,1
 305,anger,disgust,disappointment,4,0,4,0,4,3,1,1,3,1,3,3,4,0,3,4,0
 306,anger,regret,love,4,1,1,2,2,3,4,2,0,3,0,4,4,2,2,3,1
@@ -653,7 +653,7 @@ Id,First Emotion,Second Emotion,Third Emotion,anger,contempt,disgust,fear,disapp
 651,anger,amusement,interest,4,3,0,0,0,1,3,1,2,0,1,1,0,0,0,4,4
 652,contempt,sadness,admiration,2,4,0,0,0,2,2,4,0,2,4,0,1,4,1,2,0
 653,anger,shame,compassion,4,1,2,2,2,4,3,2,4,0,1,2,4,3,2,3,1
-654,anger,fear,disappointment,4,2,2,4,4,3,2,3,3,2,3,2,0,3,3,4,4
+654,anger,fear,disappointment,4,3,2,4,4,3,2,3,3,2,3,2,0,3,3,4,4
 655,shame,compassion,disgust,0,1,3,3,3,4,1,2,4,1,2,3,1,2,3,2,2
 656,shame,contentment,interest,3,3,2,3,0,4,0,3,0,1,0,2,4,3,1,0,4
 657,anger,contempt,disgust,4,4,4,0,1,1,4,3,3,4,4,1,3,0,1,0,0
@@ -704,7 +704,7 @@ Id,First Emotion,Second Emotion,Third Emotion,anger,contempt,disgust,fear,disapp
 702,regret,compassion,love,1,1,0,1,3,3,4,0,4,0,3,4,4,4,2,2,0
 703,shame,sadness,love,0,0,0,2,2,4,2,4,3,1,1,4,0,4,2,3,4
 704,contempt,disgust,regret,2,4,4,3,1,2,4,1,0,2,1,1,1,0,2,4,4
-705,shame,regret,contempt,0,3,0,0,3,4,4,2,1,3,1,0,1,2,3,3,2
+705,shame,regret,contempt,0,3,0,1,3,4,4,2,1,3,1,0,1,2,3,3,2
 706,anger,shame,compassion,4,0,3,1,0,4,1,1,4,1,3,2,4,1,4,0,1
 707,contempt,disappointment,regret,1,4,2,0,4,3,4,4,2,2,4,2,0,0,2,4,1
 708,disgust,fear,regret,3,1,4,4,2,0,4,3,1,0,0,1,2,2,1,3,2
@@ -3903,7 +3903,7 @@ Id,First Emotion,Second Emotion,Third Emotion,anger,contempt,disgust,fear,disapp
 3901,anger,disappointment,regret,4,3,3,0,4,2,4,3,1,2,1,0,1,3,3,2,0
 3902,contempt,regret,relief,0,4,2,0,1,3,4,3,1,4,2,3,4,1,2,1,0
 3903,regret,admiration,contentment,0,3,3,0,3,2,4,1,3,1,4,2,4,2,1,1,0
-3904,fear,shame,relief,3,0,1,4,3,4,2,3,1,4,3,3,1,1,1,0,0
+3904,shame,fear,relief,3,0,1,4,3,5,2,3,1,4,3,3,1,1,1,0,0
 3905,fear,regret,interest,0,0,3,4,0,0,4,0,3,1,2,2,0,0,2,1,4
 3906,disgust,relief,contentment,3,1,4,3,2,1,1,0,3,4,2,2,4,3,1,0,1
 3907,anger,disappointment,sadness,4,0,0,3,4,3,3,4,4,0,4,4,2,1,0,4,0
