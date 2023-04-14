@@ -427,10 +427,11 @@ def random_poem(request):
 
 @login_required
 def top_liked_poem(request):
-    context = {}
-    if request.method == "GET":
-        context['form'] = EmotionForm()
-        return render(request, "top_liked_poem_page.html", context)
+    starred_ids = list()
+    profiles = Profile.objects.all()
+    for profile in profiles:
+        starred_ids = starred_ids + profile.starred
+
     return render(request, "top_liked_poem_page.html")
 
 
