@@ -488,7 +488,6 @@ def upload_poem(request):
     emotions_df = pd.read_csv('poetica/static/database/emotions_db.csv')
 
     # TODO: check for preexisting poem
-    # TODO: change the top three emotions every time emotion is updated
 
     title = (form.cleaned_data['title'])
     poem = (form.cleaned_data['poem'])
