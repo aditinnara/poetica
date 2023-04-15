@@ -12,6 +12,8 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 
+from collections import Counter
+
 import random
 import pandas as pd
 import json
@@ -427,10 +429,45 @@ def random_poem(request):
 
 @login_required
 def top_liked_poem(request):
+    df = pd.read_csv('poetica/static/database/poetry_db.csv')
+
     starred_ids = list()
     profiles = Profile.objects.all()
     for profile in profiles:
         starred_ids = starred_ids + profile.starred
+    print(starred_ids)
+    c = Counter(starred_ids)
+
+    top_liked = []
+    for tup in c.most_common(10):
+        top_liked.append(int(tup[0]))
+
+    random_poems = (df.loc[df['Id'].isin(top_liked)]).to_dict(orient='index')
+    poems = {str(index): val for (index, val) in enumerate(random_poems.values())}
+
+    for poem in poems.values():
+        poem['Poet'] = poem['Poet'].replace('\\r', '').strip()
+        poem['Poem'] = poem['Poem'].replace('\\r', '\n').strip("\\r")
+        poem['Title'] = poem['Title'].replace('\\r', '').strip()
+
+    poem = poems['0']
+
+    request.session['index'] = 0
+    request.session['poems'] = poems
+
+    context = {'poem': poem}
+
+    emotion = get_emotion(poem['Id'])
+    context['poem_id'] = int(poem['Id'])
+
+    context['emotion'] = emotion
+    context['arrow_color'] = emotion + "-arrow"
+    pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
+    context['pin'] = pin_str
+
+    if request.method == "GET":
+        context['form'] = EmotionForm()
+        return render(request, "top_liked_poem_page.html", context)
 
     return render(request, "top_liked_poem_page.html")
 

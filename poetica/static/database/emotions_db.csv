@@ -250,7 +250,7 @@ Id,First Emotion,Second Emotion,Third Emotion,anger,contempt,disgust,fear,disapp
 248,compassion,relief,joy,2,1,0,3,0,0,1,2,4,4,0,0,3,4,1,2,3
 249,disappointment,shame,regret,1,2,2,1,4,4,4,4,3,2,0,0,0,1,0,0,1
 250,disgust,shame,regret,0,2,4,1,2,4,4,2,1,1,3,1,0,2,2,4,1
-251,disgust,disappointment,amusement,1,1,3,2,3,1,2,2,0,2,0,2,2,2,2,3,0
+251,disgust,disappointment,sadness,1,1,3,2,3,1,2,3,0,2,0,2,2,2,2,3,0
 252,fear,disappointment,admiration,3,0,2,4,4,0,3,2,1,2,4,3,4,2,4,2,2
 253,disappointment,sadness,relief,0,0,1,0,4,2,2,4,3,4,2,2,0,2,4,3,4
 254,anger,fear,regret,4,0,2,4,2,0,3,1,3,2,0,2,0,2,1,1,2
@@ -514,7 +514,7 @@ Id,First Emotion,Second Emotion,Third Emotion,anger,contempt,disgust,fear,disapp
 512,shame,disgust,regret,1,2,3,2,0,4,3,2,1,3,2,0,3,0,3,2,1
 513,disgust,shame,compassion,1,3,4,1,1,4,1,1,4,4,2,1,0,1,0,4,2
 514,contempt,fear,regret,3,4,3,4,2,2,4,2,4,2,0,3,4,3,1,3,4
-515,contempt,fear,disappointment,1,4,1,4,4,1,1,0,3,0,4,2,4,0,4,4,0
+515,contempt,fear,disappointment,1,4,1,4,4,1,1,0,3,0,4,2,4,1,4,4,0
 516,disgust,pride,fear,0,1,4,3,1,0,2,3,0,0,2,0,1,3,4,2,2
 517,fear,disappointment,sadness,3,1,1,4,4,0,1,4,1,2,4,3,2,0,1,4,3
 518,disappointment,regret,compassion,3,2,0,1,4,3,4,2,4,3,0,4,2,1,4,0,0
@@ -803,7 +803,7 @@ Id,First Emotion,Second Emotion,Third Emotion,anger,contempt,disgust,fear,disapp
 801,contempt,disgust,relief,2,4,4,2,2,0,2,1,1,4,4,0,1,3,3,2,1
 802,regret,compassion,amusement,3,2,3,2,2,3,4,2,4,3,1,0,0,0,0,4,3
 803,disgust,shame,amusement,1,0,4,2,0,4,1,0,3,3,2,0,1,2,3,4,1
-804,anger,shame,compassion,4,3,1,3,0,4,2,2,4,4,3,3,0,2,0,1,1
+804,anger,shame,compassion,4,3,1,3,0,4,2,2,4,4,4,3,0,2,0,1,1
 805,anger,contentment,fear,4,2,2,3,2,2,2,3,2,1,2,0,4,2,3,2,3
 806,anger,interest,sadness,4,2,2,1,1,0,0,3,3,0,0,2,1,3,0,2,4
 807,anger,sadness,compassion,4,1,1,3,0,0,2,4,4,4,0,4,1,1,1,4,1
@@ -1899,7 +1899,7 @@ Id,First Emotion,Second Emotion,Third Emotion,anger,contempt,disgust,fear,disapp
 1897,regret,sadness,interest,0,3,0,0,2,1,4,4,1,3,3,0,3,2,1,1,4
 1898,disgust,regret,sadness,0,3,4,1,0,0,4,4,0,4,3,3,3,1,3,3,4
 1899,anger,contempt,sadness,4,4,1,2,2,1,1,4,1,0,3,1,1,3,4,2,0
-1900,shame,regret,sadness,1,2,1,1,2,4,4,4,4,3,4,3,0,4,4,0,3
+1900,shame,regret,sadness,1,2,1,1,2,4,4,4,4,3,4,4,0,4,4,0,3
 1901,contempt,disgust,fear,0,4,4,4,3,0,1,4,4,0,2,4,0,3,1,2,2
 1902,anger,disgust,love,4,1,4,2,0,2,1,3,0,1,0,4,1,0,3,3,3
 1903,shame,contentment,fear,0,0,2,3,2,4,0,3,1,2,2,2,4,1,3,2,1
@@ -2220,7 +2220,7 @@ Id,First Emotion,Second Emotion,Third Emotion,anger,contempt,disgust,fear,disapp
 2218,anger,shame,relief,4,1,1,1,3,4,3,2,1,4,1,0,0,1,0,0,1
 2219,contempt,anger,compassion,3,4,0,0,0,1,1,2,3,3,1,3,2,2,3,0,3
 2220,contempt,regret,sadness,3,4,3,3,3,2,4,4,0,3,4,3,4,4,2,4,4
-2221,anger,relief,contentment,4,2,0,0,2,3,3,1,3,4,2,3,4,0,1,1,4
+2221,anger,relief,contentment,4,2,0,0,2,3,3,1,3,4,2,3,4,0,1,3,4
 2222,contempt,shame,pride,3,4,3,1,2,4,3,0,2,1,0,3,2,3,4,2,0
 2223,anger,contempt,disappointment,4,4,3,3,4,0,2,3,3,2,4,0,2,4,0,4,1
 2224,fear,regret,pride,3,1,0,4,3,0,4,2,1,0,0,1,3,3,4,3,0
