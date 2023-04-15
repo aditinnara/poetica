@@ -202,6 +202,7 @@ def profile(request):
         poem['Poem'] = poem['Poem'].replace('\\r', '\n').strip("\\r")
         poem['Title'] = poem['Title'].replace('\\r', '').strip()
         poem['emotion'] = get_emotion(poem['Id']) + "-arrow"
+        poem['Id'] = int(poem['Id'])
 
     if request.method == "GET":
         context = {'starred': starred, 'profile': request.user.profile, 'picform': ProfilePicForm(), 'bioform': ProfileBioForm(initial={'bio': request.user.profile.bio})}
@@ -253,7 +254,7 @@ def emotion_submit(request, poem_id):
     poem = {'Poet': poem['Poet'].replace('\\r', '').strip(),
             'Poem': poem['Poem'].replace('\\r', '\n').strip("\\r"),
             'Title': poem['Title'].replace('\\r', '').strip(),
-            'Id': poem_id}
+            'Id': int(poem_id)}
 
     context = {'poem': poem}
     context['poem_id'] = int(poem_id)
