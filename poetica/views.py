@@ -494,6 +494,14 @@ def upload_poem(request):
     author = (form.cleaned_data['author'])
     emotion = (form.cleaned_data['emotion'])
 
+    match_title = [x.lower() for x in poem_df['Title']]
+    match_author = [x.lower() for x in poem_df['Poet']]
+
+    if (title.lower() in match_title) and (author.lower() in match_author):
+        form.add_error(None, "This poem is already in our database! Try uploading another.")
+        context = {'form': form}
+        return render(request, "upload_poem_page.html", context)
+
     id_df = poem_df['Id'].idxmax() + 1
 
     new_row_poem_df = pd.DataFrame({
