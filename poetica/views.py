@@ -130,7 +130,27 @@ def get_rand_quote():
     return [list(quote_dict)[rand_ind], list(quote_dict.values())[rand_ind]]
 
 
+def profile_check(action_function):
+    def my_wrapper_function(request, *args, **kwargs):
+        try:
+            request.user.profile
+            return action_function(request, *args, **kwargs)
+        except:
+            return redirect(reverse('make-profile'))        
+
+    return my_wrapper_function
+
+
+def make_profile(request):
+    new_profile = Profile(user=request.user)
+    new_profile.save()
+
+    request.user.username = request.user.social_auth.get(provider='google-oauth2').extra_data['fullname']
+    request.user.save()
+
+
 @login_required
+@profile_check
 def home(request):
     return render(request, "mainpage.html")
 
@@ -157,6 +177,11 @@ def login(request):
     
     auth_login(request, user)
     return redirect(reverse('home'))
+
+
+def logout(request):
+    auth_logout(request)
+    return redirect(reverse('login'))
 
 
 def register(request):
@@ -194,6 +219,7 @@ def register(request):
 
 
 @login_required
+@profile_check
 def profile(request):
     poem_df = pd.read_csv('poetica/static/database/poetry_db.csv')
     starred_ids = request.user.profile.starred
@@ -239,6 +265,7 @@ def profile(request):
 
 
 @login_required
+@profile_check
 def other_profile(request, id):
     user = get_object_or_404(User, id=id)
 
@@ -263,6 +290,7 @@ def other_profile(request, id):
 
 
 @login_required
+@profile_check
 def emotion_submit(request, poem_id):
     if request.method == "POST":
         form = EmotionForm(request.POST)
@@ -305,6 +333,7 @@ def emotion_submit(request, poem_id):
 
 
 @login_required
+@profile_check
 def starred_poem(request, poem_id):
     poem_df = pd.read_csv('poetica/static/database/poetry_db.csv')
     starred_ids = request.user.profile.starred
@@ -345,6 +374,7 @@ def starred_poem(request, poem_id):
 
 
 @login_required
+@profile_check
 def discover_quiz(request):
     if request.method == "GET":
         context = {'form': DiscoverForm()}
@@ -427,6 +457,7 @@ def discover_quiz(request):
 
 
 @login_required
+@profile_check
 def discover_poem(request):
     context = {}
     if request.method == "GET":
@@ -436,6 +467,7 @@ def discover_poem(request):
 
 
 @login_required
+@profile_check
 def random_poem(request):
     df = pd.read_csv('poetica/static/database/poetry_db.csv')
 
@@ -482,6 +514,7 @@ def random_poem(request):
 
 
 @login_required
+@profile_check
 def top_liked_poem(request):
     df = pd.read_csv('poetica/static/database/poetry_db.csv')
 
@@ -534,6 +567,7 @@ def top_liked_poem(request):
 
 
 @login_required
+@profile_check
 def upload_poem(request):
     if request.method == "GET":
         context = {'form': UploadForm()}
@@ -603,6 +637,7 @@ def upload_poem(request):
 
 
 @login_required
+@profile_check
 def left_arrow(request):
     index = request.session['index']
     poems = request.session['poems']
@@ -639,6 +674,7 @@ def left_arrow(request):
 
 
 @login_required
+@profile_check
 def right_arrow(request):
     index = request.session['index']
     poems = request.session['poems']
@@ -678,6 +714,7 @@ def right_arrow(request):
 
 
 @login_required
+@profile_check
 def get_photo(request, id):
     info = get_object_or_404(Profile, id=id)
     print('Photo #{} fetched from database: {} (type={})'.format(id, info.profile_picture, type(info.profile_picture)))
@@ -685,6 +722,7 @@ def get_photo(request, id):
     return HttpResponse(info.profile_picture, content_type=info.content_type)
 
 @login_required
+@profile_check
 def star(request, id):
     index = request.session['index']
     poems = request.session['poems']
@@ -719,6 +757,7 @@ def star(request, id):
 
 
 @login_required
+@profile_check
 def unstar(request, id):
     index = request.session['index']
     poems = request.session['poems']
@@ -753,6 +792,7 @@ def unstar(request, id):
 
 
 @login_required
+@profile_check
 def comment(request, poem_id):
     index = request.session['index']
     poems = request.session['poems']
@@ -791,6 +831,7 @@ def comment(request, poem_id):
 
 
 @login_required
+@profile_check
 def reply(request, comment_id):
     index = request.session['index']
     poems = request.session['poems']

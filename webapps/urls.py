@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home),
     path('poetica/', include('poetica.urls')),
+    path('oauth/', include('social_django.urls', namespace='social')),
 ]

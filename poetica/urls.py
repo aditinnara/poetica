@@ -3,7 +3,9 @@ from poetica import views
 
 urlpatterns = [
     path('home', views.home, name='home'),
+    path('make-profile', views.make_profile, name='make-profile'),
     path('login', views.login, name='login'),
+    path('logout', views.logout, name='logout'),
     path('register', views.register, name='register'),
     path('profile', views.profile, name='profile'),
     path('other-profile/<int:id>', views.other_profile, name='other-profile'),
