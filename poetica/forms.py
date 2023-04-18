@@ -116,7 +116,7 @@ class DiscoverForm(forms.Form):
 
 class UploadForm(forms.Form):
     title = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': "Who Said It Was Simple"}))
-    poem = forms.CharField(widget=forms.Textarea(attrs={'class': "form-control", 'placeholder': "There are so many roots to the tree of anger..."}))
+    poem = forms.CharField(widget=forms.Textarea(attrs={'class': "form-control poem_upload_bg", 'placeholder': "There are so many roots to the tree of anger..."}))
     author = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': "form-control", 'placeholder': "Audre Lorde"}))
     emotion = forms.ChoiceField(choices=EMOTION_CHOICES, widget=forms.Select(attrs={'class': "form-control"}))
     def clean(self):

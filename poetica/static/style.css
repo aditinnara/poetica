@@ -91,6 +91,10 @@ body {
     background-image: url('media/test.png');
 }
 
+.poem_upload_bg:focus {
+    background-image: url('media/login_bg.png') !important;
+}
+
 .img-cover {
     object-fit: cover;
     object-position: center;
