@@ -142,3 +142,6 @@ LOGIN_URL = '/poetica/login'
 
 # Default URL to redirect to after a user logs in
 LOGIN_REDIRECT_URL = '/poetica/home'
+
+# Specify the default location for uploaded files
+MEDIA_ROOT = BASE_DIR / 'poetica/static/media'
