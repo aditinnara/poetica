@@ -6,6 +6,7 @@ urlpatterns = [
     path('login', views.login, name='login'),
     path('register', views.register, name='register'),
     path('profile', views.profile, name='profile'),
+    path('other-profile/<int:id>', views.other_profile, name='other-profile'),
     path('discover-quiz', views.discover_quiz, name='discover-quiz'),
     path('random-poem/<int:poem_id>', views.emotion_submit, name='emotion-submit'),
     path('starred-poem/<int:poem_id>', views.starred_poem, name='starred-poem'),

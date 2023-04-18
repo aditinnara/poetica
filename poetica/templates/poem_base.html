@@ -313,7 +313,7 @@
                             
                             {% for comment_block in comments %}
                                 <div class="d-flex flex-start" id="comment-section-{{comment_block.comment.id}}">
-                                    <a class="me-3" href="#" id="profile-pic-comment-{{comment_block.comment.id}}">
+                                    <a class="me-3" href="{% url 'other-profile' comment_block.comment.user.id %}" id="profile-pic-comment-{{comment_block.comment.id}}">
                                         {% if not comment_block.comment.user.profile.profile_picture %}
                                             <img class="rounded-circle shadow-1-strong"
                                                  src="/static/media/dummypfp.png" alt="avatar"
@@ -338,7 +338,7 @@
     
                                         {% for reply in comment_block.replies %}
                                             <div class="d-flex flex-start mt-4" id="reply-{{reply.id}}">
-                                                <a class="me-3" href="#" id="profile-pic-reply-{{reply.id}}">
+                                                <a class="me-3" href="{% url 'other-profile' reply.user.id %}" id="profile-pic-reply-{{reply.id}}">
                                                     {% if not reply.user.profile.profile_picture %}
                                                         <img class="rounded-circle shadow-1-strong"
                                                              src="/static/media/dummypfp.png" alt="avatar"

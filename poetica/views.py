@@ -239,6 +239,30 @@ def profile(request):
 
 
 @login_required
+def other_profile(request, id):
+    user = get_object_or_404(User, id=id)
+
+    poem_df = pd.read_csv('poetica/static/database/poetry_db.csv')
+    starred_ids = user.profile.starred
+    starred_dict = (poem_df.loc[poem_df['Id'].isin(starred_ids)]).to_dict(orient='index')
+    starred = [val for (index, val) in enumerate(starred_dict.values())]
+
+    for poem in starred:
+        poem['Poet'] = poem['Poet'].replace('\\r', '').strip()
+        poem['Poem'] = poem['Poem'].replace('\\r', '\n').strip("\\r")
+        poem['Title'] = poem['Title'].replace('\\r', '').strip()
+        poem['emotion'] = get_emotion(poem['Id']) + "-arrow"
+        poem['Id'] = int(poem['Id'])
+
+    if user == request.user:
+        context = {'starred': starred, 'profile': user.profile, 'picform': ProfilePicForm(),'bioform': ProfileBioForm(instance=request.user.profile)}
+        return render(request, "profile_page.html", context)
+
+    context = {'starred': starred, 'profile': user.profile}
+    return render(request, "other_profile_page.html", context)
+
+
+@login_required
 def emotion_submit(request, poem_id):
     if request.method == "POST":
         form = EmotionForm(request.POST)

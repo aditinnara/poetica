@@ -1,0 +1,47 @@
+{% extends "navbar_base.html" %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block content %}
+    <br><br>
+
+    <div class="d-flex mb-4 mleft-20">
+        
+        <div class="flex-shrink-0">
+            <div class="profilepic-container" style="width: 200px;height:200px;">
+                <div class="profilepic">
+                    {% if not profile.profile_picture %}
+                        <img src="/static/media/dummypfp.png" class="rounded-circle" style="width: 200px;height:200px;">
+                    {% else %}
+                        <img src="{% url 'photo' profile.user.id %}" class="rounded-circle" style="width: 200px;height:200px;">
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="flex-grow-1 ms-3 mleft-20 display-5">
+            {{profile.user.username}}
+            <br>
+                <div class="form-group mright-20">
+                    <textarea class="form-control" id="user_bio_area" rows="5" readonly>{{profile.bio}}</textarea>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <br><br>
+    <div class="mleft-20 display-6"> {{profile.user.username}}'s saved poetry </div>
+    <br>
+
+    <div class="mleft-20">
+        {% for poem in starred %}
+            <ul>
+                <a href="{% url 'starred-poem' poem.Id %}" class="text-decoration-none">
+                    <i class="bi bi-square-fill {{poem.emotion}}"></i>
+                </a>
+                &nbsp; "{{ poem.Title }}" — {{ poem.Poet }}
+            </ul>
+        {% endfor %}
+    </div>
+{% endblock %}
