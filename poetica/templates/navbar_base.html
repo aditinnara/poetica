@@ -14,23 +14,37 @@
         </a>
         <div class="navbar-nav py-4">
             <ul class="navbar-nav bd-navbar-nav flex-row">
-                <li class="nav-item right-padding">
+                <div class="bd-example">
+                  <div class="btn-group">
                     <a href="{% url 'upload-poem' %}" style="text-decoration:none;">
                         <button type="button" class="btn btn-dark btn-lg btn-space rounded-pill">upload</button>
                     </a>
+                  </div><!-- /btn-group -->
+                  <div class="btn-group">
                     <a href="{% url 'top-liked-poem' %}" style="text-decoration:none;">
                         <button type="button" class="btn btn-dark btn-lg btn-space rounded-pill">top poems</button>
                     </a>
+                  </div><!-- /btn-group -->
+                  <div class="btn-group">
                     <a href="{% url 'discover-quiz' %}" style="text-decoration:none;">
                         <button type="button" class="btn btn-dark btn-lg btn-space rounded-pill">discover</button>
                     </a>
+                  </div><!-- /btn-group -->
+                  <div class="btn-group">
                     <a href="{% url 'random-poem' %}" style="text-decoration:none;">
                         <button type="button" class="btn btn-dark btn-lg btn-space rounded-pill">random</button>
                     </a>
-                    <a href="{% url 'profile' %}" style="text-decoration:none;">
-                        <button type="button" class="btn btn-dark btn-lg btn-space rounded-pill">profile</button>
-                    </a>
-                </li>
+                  </div><!-- /btn-group -->
+                  <div class="btn-group">
+                      <div class="dropdown-container">
+                        <button type="button" class="btn btn-dark btn-lg btn-space rounded-pill dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">profile</button>
+                        <div class="dropdown-menu">
+                          <a class="dropdown-item" href="{% url 'profile' %}">view profile</a>
+                          <a class="dropdown-item" href="#">logout</a>
+                        </div>
+                      </div>
+                  </div><!-- /btn-group -->
+                </div>
             </ul>
         </div>
     </nav>

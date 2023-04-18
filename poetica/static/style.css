@@ -529,3 +529,14 @@ span.vam {
     display: inline-block;
 }
 
+.dropdown-container {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute !important;
+  top: 100%; /* Bottom of button */
+  right: 0;
+  margin-left: -100px; /* More to the left */
+}
+
