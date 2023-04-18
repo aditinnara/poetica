@@ -538,5 +538,10 @@ span.vam {
   top: 100%; /* Bottom of button */
   right: 0;
   margin-left: -100px; /* More to the left */
+  background-color: #fff;
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+  background-image: url('media/nav_bg.png');
 }
 
