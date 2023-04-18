@@ -2,6 +2,8 @@ from django.forms import Form
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, Http404
 from django.urls import reverse
+from django.utils import timezone
+
 from poetica.forms import DiscoverForm, UploadForm, EmotionForm
 from poetica.forms import LoginForm, RegisterForm, ProfilePicForm, ProfileBioForm
 from poetica.models import Profile, Comment, Reply
@@ -126,6 +128,7 @@ def get_rand_quote():
     random.seed()
     rand_ind = random.randint(0, len(quote_dict)-1)
     return [list(quote_dict)[rand_ind], list(quote_dict.values())[rand_ind]]
+
 
 @login_required
 def home(request):
@@ -268,6 +271,12 @@ def emotion_submit(request, poem_id):
     context['pin'] = pin_str
     context['graph_display'] = True
 
+    comments = Comment.objects.all().filter(poem_id=poem_id).order_by('-creation_time')
+    comment_list = list()
+    for comment in comments:
+        comment_list.append({'comment': comment, 'replies': (Reply.objects.all().filter(comment=comment).order_by('creation_time'))})
+    context['comments'] = comment_list
+
     return render(request, "poem_base.html", context)
 
 
@@ -301,6 +310,12 @@ def starred_poem(request, poem_id):
     pin_str = "https://www.pinterest.com/pin/create/button/?url=http://127.0.0.1:8000/poetica/random-poem&media=" + emotion + ".jpg&description=Poetica"
     context['pin'] = pin_str
     context['graph_display'] = True
+
+    comments = Comment.objects.all().filter(poem_id=poem_id).order_by('-creation_time')
+    comment_list = list()
+    for comment in comments:
+        comment_list.append({'comment': comment, 'replies': (Reply.objects.all().filter(comment=comment).order_by('creation_time'))})
+    context['comments'] = comment_list
 
     return render(request, "poem_base.html", context)
 
@@ -367,6 +382,8 @@ def discover_quiz(request):
 
     context = {'poem': poem}
     emotion = get_emotion(poem['Id'])
+
+    poem_id = int(poem['Id'])
     context['emotion'] = emotion
     context['poem_id'] = int(poem['Id'])
 
@@ -375,6 +392,12 @@ def discover_quiz(request):
     context['pin'] = pin_str
 
     context['form'] = EmotionForm()
+
+    comments = Comment.objects.all().filter(poem_id=poem_id).order_by('-creation_time')
+    comment_list = list()
+    for comment in comments:
+        comment_list.append({'comment': comment, 'replies': (Reply.objects.all().filter(comment=comment).order_by('creation_time'))})
+    context['comments'] = comment_list
 
     return render(request, "discover_poem_page.html", context)
 
@@ -391,7 +414,6 @@ def discover_poem(request):
 @login_required
 def random_poem(request):
     df = pd.read_csv('poetica/static/database/poetry_db.csv')
-
 
     random_ids = []
     for i in range(0, 5):
@@ -411,14 +433,21 @@ def random_poem(request):
 
     context = {'poem': poem}
 
+    poem_id = int(poem['Id'])
     emotion = get_emotion(poem['Id'])
-    context['poem_id'] = int(poem['Id'])
+    context['poem_id'] = poem_id
 
 
     context['emotion'] = emotion
     context['arrow_color'] = emotion + "-arrow"
     pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
     context['pin'] = pin_str
+
+    comments = Comment.objects.all().filter(poem_id=poem_id).order_by('-creation_time')
+    comment_list = list()
+    for comment in comments:
+        comment_list.append({'comment': comment, 'replies': (Reply.objects.all().filter(comment=comment).order_by('creation_time'))})
+    context['comments'] = comment_list
 
     if request.method == "GET":
         context['form'] = EmotionForm()
@@ -458,13 +487,20 @@ def top_liked_poem(request):
 
     context = {'poem': poem}
 
+    poem_id = int(poem['Id'])
     emotion = get_emotion(poem['Id'])
-    context['poem_id'] = int(poem['Id'])
+    context['poem_id'] = poem_id
 
     context['emotion'] = emotion
     context['arrow_color'] = emotion + "-arrow"
     pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
     context['pin'] = pin_str
+
+    comments = Comment.objects.all().filter(poem_id=poem_id).order_by('-creation_time')
+    comment_list = list()
+    for comment in comments:
+        comment_list.append({'comment': comment, 'replies': (Reply.objects.all().filter(comment=comment).order_by('creation_time'))})
+    context['comments'] = comment_list
 
     if request.method == "GET":
         context['form'] = EmotionForm()
@@ -556,13 +592,20 @@ def left_arrow(request):
     poem = poems[str(index)]
     context = {'poem': poem}
 
+    poem_id = int(poem['Id'])
     emotion = get_emotion(poem['Id'])
-    context['poem_id'] = int(poem['Id'])
+    context['poem_id'] = poem_id
 
     context['emotion'] = emotion
     context['arrow_color'] = emotion + "-arrow"
     pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
     context['pin'] = pin_str
+
+    comments = Comment.objects.all().filter(poem_id=poem_id).order_by('-creation_time')
+    comment_list = list()
+    for comment in comments:
+        comment_list.append({'comment': comment, 'replies': (Reply.objects.all().filter(comment=comment).order_by('creation_time'))})
+    context['comments'] = comment_list
 
     if request.method == "GET":
         context['form'] = EmotionForm()
@@ -587,13 +630,20 @@ def right_arrow(request):
     context = {'poem': poem}
 
     emotion = get_emotion(poem['Id'])
+    poem_id = int(poem['Id'])
     context['emotion'] = emotion
-    context['poem_id'] = int(poem['Id'])
+    context['poem_id'] = poem_id
 
     context['arrow_color'] = emotion + "-arrow"
     pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
     context['pin'] = pin_str
     context['form'] = EmotionForm()
+
+    comments = Comment.objects.all().filter(poem_id=poem_id).order_by('-creation_time')
+    comment_list = list()
+    for comment in comments:
+        comment_list.append({'comment': comment, 'replies': (Reply.objects.all().filter(comment=comment).order_by('creation_time'))})
+    context['comments'] = comment_list
 
     if request.method == "GET":
         context['form'] = EmotionForm()
@@ -619,14 +669,21 @@ def star(request, id):
     context = {'poem': poem}
 
     emotion = get_emotion(poem['Id'])
+    poem_id = int(poem['Id'])
     context['emotion'] = emotion
-    context['poem_id'] = int(poem['Id'])
+    context['poem_id'] = poem_id
 
     context['arrow_color'] = emotion + "-arrow"
 
     pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
     context['pin'] = pin_str
     context['form'] = EmotionForm()
+
+    comments = Comment.objects.all().filter(poem_id=poem_id).order_by('-creation_time')
+    comment_list = list()
+    for comment in comments:
+        comment_list.append({'comment': comment, 'replies': (Reply.objects.all().filter(comment=comment).order_by('creation_time'))})
+    context['comments'] = comment_list
 
     starred = request.user.profile.starred
     star_set = set(starred)
@@ -646,14 +703,21 @@ def unstar(request, id):
     context = {'poem': poem}
 
     emotion = get_emotion(poem['Id'])
+    poem_id = int(poem['Id'])
     context['emotion'] = emotion
-    context['poem_id'] = int(poem['Id'])
+    context['poem_id'] = poem_id
 
     context['arrow_color'] = emotion + "-arrow"
 
     pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
     context['pin'] = pin_str
     context['form'] = EmotionForm()
+
+    comments = Comment.objects.all().filter(poem_id=poem_id).order_by('-creation_time')
+    comment_list = list()
+    for comment in comments:
+        comment_list.append({'comment': comment, 'replies': (Reply.objects.all().filter(comment=comment).order_by('creation_time'))})
+    context['comments'] = comment_list
 
     starred = request.user.profile.starred
     star_set = set(starred)
@@ -663,3 +727,78 @@ def unstar(request, id):
 
     return render(request, "poem_base.html", context)
 
+
+@login_required
+def comment(request, poem_id):
+    index = request.session['index']
+    poems = request.session['poems']
+    poem = poems[str(index)]
+
+    context = {'poem': poem}
+
+    emotion = get_emotion(poem['Id'])
+    poem_id = int(poem['Id'])
+    context['emotion'] = emotion
+    context['poem_id'] = poem_id
+
+    context['arrow_color'] = emotion + "-arrow"
+
+    pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
+    context['pin'] = pin_str
+    context['form'] = EmotionForm()
+
+    if 'comment-input' not in request.POST or not request.POST['comment-input']:
+        comments = Comment.objects.all().filter(poem_id=poem_id).order_by('-creation_time')
+        comment_list = list()
+        for comment in comments:
+            comment_list.append({'comment': comment, 'replies': (Reply.objects.all().filter(comment=comment).order_by('creation_time'))})
+            context['comments'] = comment_list
+        return render(request, "poem_base.html", context)
+    
+    new_comment = Comment(user=request.user, comment_text=request.POST['comment-input'], creation_time=timezone.now(), poem_id=poem_id)
+    new_comment.save()
+
+    comments = Comment.objects.all().filter(poem_id=poem_id).order_by('-creation_time')
+    comment_list = list()
+    for comment in comments:
+        comment_list.append({'comment': comment, 'replies': (Reply.objects.all().filter(comment=comment).order_by('creation_time'))})
+    context['comments'] = comment_list
+    return render(request, "poem_base.html", context)
+
+
+@login_required
+def reply(request, comment_id):
+    index = request.session['index']
+    poems = request.session['poems']
+    poem = poems[str(index)]
+
+    context = {'poem': poem}
+
+    emotion = get_emotion(poem['Id'])
+    poem_id = int(poem['Id'])
+    context['emotion'] = emotion
+    context['poem_id'] = poem_id
+
+    context['arrow_color'] = emotion + "-arrow"
+
+    pin_str = "https://www.pinterest.com/pin/create/button/?url=http%3A%2F%2F127.0.0.1%3A8000%2Fpoetica%2Frandom-poem&media=" + emotion + ".jpg&description=Poetica"
+    context['pin'] = pin_str
+    context['form'] = EmotionForm()
+
+    if 'reply-input' not in request.POST or not request.POST['reply-input']:
+        comments = Comment.objects.all().filter(poem_id=poem_id).order_by('-creation_time')
+        comment_list = list()
+        for comment in comments:
+            comment_list.append({'comment': comment, 'replies': (Reply.objects.all().filter(comment=comment).order_by('creation_time'))})
+            context['comments'] = comment_list
+        return render(request, "poem_base.html", context)
+
+    new_reply = Reply(user=request.user, reply_text=request.POST['reply-input'], creation_time=timezone.now(), comment=Comment.objects.get(id=comment_id))
+    new_reply.save()
+
+    comments = Comment.objects.all().filter(poem_id=poem_id).order_by('-creation_time')
+    comment_list = list()
+    for comment in comments:
+        comment_list.append({'comment': comment, 'replies': (Reply.objects.all().filter(comment=comment).order_by('creation_time'))})
+        context['comments'] = comment_list
+    return render(request, "poem_base.html", context)  

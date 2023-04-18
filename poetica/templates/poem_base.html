@@ -280,88 +280,122 @@
 
                     <div class="row collapse" id="collapseExample">
                         <div class="col">
-
-                            <div class="d-flex flex-start" id="comment-box">
-                                <img class="rounded-circle shadow-1-strong me-3"
-                                     src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp" alt="avatar"
-                                     width="65"
-                                     height="65"/>
-                                <div class="flex-grow-1 flex-shrink-1 ">
-                                    <div>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <p class="mb-1" id="comment-box-name">
-                                                Maria Smantha
-                                            </p>
-                                        </div>
-                                        <textarea class="form-control" rows="4"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <br>
-
-                            <div class="d-flex flex-start" id="comment-section-1">
-                                <a class="me-3" href="#" id="profile-pic-comment-1">
-                                    <img class="rounded-circle shadow-1-strong"
-                                     src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(11).webp"
-                                     alt="avatar"
-                                     width="65" height="65"/>
-                                </a>
-                                <div class="flex-grow-1 flex-shrink-1">
-                                    <div id="comment-1">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <p class="mb-1" id="comment-box-name-1">
-                                                Maria Smantha <span class="small" id="comment-time-1">- 2 hours ago</span>
-                                            </p>
-                                        </div>
-                                        <p class="small mb-0" id="comment-text-1">
-                                            It is a long-established fact that a reader will be distracted by
-                                            the readable content of a page.
-                                        </p>
-                                    </div>
-
-                                    <div class="d-flex flex-start mt-4" id="reply-1">
-                                        <a class="me-3" href="#" id="profile-pic-reply-1">
-                                            <img class="rounded-circle shadow-1-strong"
-                                                 src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(11).webp"
-                                                 alt="avatar"
-                                                 width="65" height="65"/>
-                                        </a>
-                                        <div class="flex-grow-1 flex-shrink-1">
-                                            <div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <p class="mb-1" id="reply-name-1">
-                                                        Simona Disa <span class="small" id="reply-time-1">- 3 hours ago</span>
-                                                    </p>
-                                                </div>
-                                                <p class="small mb-0" id="reply-text-1">
-                                                    letters, as opposed to using 'Content here, content here',
-                                                    making it look like readable English.
+                            <form method="post" action="{% url 'comment' poem_id %}">
+                                <div class="d-flex flex-start" id="comment-box">
+                                    {% if not user.profile.profile_picture %}
+                                        <img class="rounded-circle shadow-1-strong me-3"
+                                             src="/static/media/dummypfp.png" alt="avatar"
+                                             width="65"
+                                             height="65"/>
+                                    {% else %}
+                                        <img class="rounded-circle shadow-1-strong me-3"
+                                             src="{% url 'photo' user.id %}" alt="avatar"
+                                             width="65"
+                                             height="65"/>
+                                    {% endif %}
+                                    <div class="flex-grow-1 flex-shrink-1 ">
+                                        <div>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <p class="mb-1" id="comment-box-name">
+                                                    {{ user.username }}
                                                 </p>
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex flex-start mt-4" id="reply-box-1">
-                                        <a class="me-3" href="#" id="profile-pic-reply-box-1">
-                                            <img class="rounded-circle shadow-1-strong"
-                                                 src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp"
-                                                 alt="avatar"
-                                                 width="65" height="65"/>
-                                        </a>
-                                        <div class="flex-grow-1 flex-shrink-1">
-                                            <div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <p class="mb-1" id="reply-box-profile-1">
-                                                        Maria Smantha <span class="small" id="reply-box-time-1">- 2 hours ago</span>
-                                                    </p>
-                                                </div>
-                                                <textarea class="form-control" rows="4"></textarea>
-                                            </div>
+                                            <textarea name="comment-input" class="form-control" rows="4"></textarea>
+                                            <br>
+                                            <button type="submit" class="btn btn-dark btn-lg btn-space rounded-pill">comment</button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                {% csrf_token %}
+                            </form>
+
+                            <br>
+                            
+                            {% for comment_block in comments %}
+                                <div class="d-flex flex-start" id="comment-section-{{comment_block.comment.id}}">
+                                    <a class="me-3" href="#" id="profile-pic-comment-{{comment_block.comment.id}}">
+                                        {% if not comment_block.comment.user.profile.profile_picture %}
+                                            <img class="rounded-circle shadow-1-strong"
+                                                 src="/static/media/dummypfp.png" alt="avatar"
+                                                 width="65" height="65"/>
+                                        {% else %}
+                                            <img class="rounded-circle shadow-1-strong"
+                                                 src="{% url 'photo' comment_block.comment.user.id %}" alt="avatar"
+                                                 width="65" height="65"/>
+                                        {% endif %}
+                                    </a>
+                                    <div class="flex-grow-1 flex-shrink-1">
+                                        <div id="comment-{{comment_block.comment.id}}">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <p class="mb-1" id="comment-box-name-{{comment_block.comment.id}}">
+                                                    {{comment_block.comment.user.username}} <span class="small" id="comment-time-{{comment_block.comment.id}}">- {{comment_block.comment.creation_time|date:"n/j/Y g:i A"}}</span>
+                                                </p>
+                                            </div>
+                                            <p class="small mb-0" id="comment-text-{{comment_block.comment.id}}">
+                                                {{comment_block.comment.comment_text}}
+                                            </p>
+                                        </div>
+    
+                                        {% for reply in comment_block.replies %}
+                                            <div class="d-flex flex-start mt-4" id="reply-{{reply.id}}">
+                                                <a class="me-3" href="#" id="profile-pic-reply-{{reply.id}}">
+                                                    {% if not reply.user.profile.profile_picture %}
+                                                        <img class="rounded-circle shadow-1-strong"
+                                                             src="/static/media/dummypfp.png" alt="avatar"
+                                                             width="65" height="65"/>
+                                                    {% else %}
+                                                        <img class="rounded-circle shadow-1-strong"
+                                                             src="{% url 'photo' reply.user.id %}" alt="avatar"
+                                                             width="65" height="65"/>
+                                                    {% endif %}
+                                                </a>
+                                                <div class="flex-grow-1 flex-shrink-1">
+                                                    <div>
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <p class="mb-1" id="reply-name-{{reply.id}}">
+                                                                {{reply.user.username}} <span class="small" id="reply-time-{{reply.id}}">- {{reply.creation_time|date:"n/j/Y g:i A"}}</span>
+                                                            </p>
+                                                        </div>
+                                                        <p class="small mb-0" id="reply-text-{{reply.id}}">
+                                                            {{reply.reply_text}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+
+                                        <form method="post" action="{% url 'reply' comment_block.comment.id %}">
+                                            <div class="d-flex flex-start mt-4" id="reply-box-{{reply.id}}">
+                                                <div class="me-3" id="profile-pic-reply-box-{{reply.id}}">
+                                                    {% if not user.profile.profile_picture %}
+                                                        <img class="rounded-circle shadow-1-strong"
+                                                             src="/static/media/dummypfp.png" alt="avatar"
+                                                             width="65" height="65"/>
+                                                    {% else %}
+                                                        <img class="rounded-circle shadow-1-strong"
+                                                             src="{% url 'photo' user.id %}" alt="avatar"
+                                                             width="65" height="65"/>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="flex-grow-1 flex-shrink-1">
+                                                    <div>
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <p class="mb-1" id="reply-box-profile-{{reply.id}}">
+                                                                {{user.username}}
+                                                            </p>
+                                                        </div>
+                                                        <textarea name="reply-input" class="form-control" rows="4"></textarea>
+                                                        <br>
+                                                        <button type="submit" class="btn btn-dark btn-lg btn-space rounded-pill">reply</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% csrf_token %}
+                                        </form>
+                                        <br>
+                                    </div>
+                                </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

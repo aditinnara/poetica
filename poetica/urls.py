@@ -18,4 +18,6 @@ urlpatterns = [
     path('photo/<int:id>', views.get_photo, name='photo'),
     path('star/<int:id>', views.star, name='star'),
     path('unstar/<int:id>', views.unstar, name='unstar'),
+    path('comment/<int:poem_id>', views.comment, name='comment'),
+    path('reply/<int:comment_id>', views.reply, name='reply'),
 ]
